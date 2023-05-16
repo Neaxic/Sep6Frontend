@@ -206,7 +206,7 @@ export function HeaderMenu() {
 
               <HoverCard.Dropdown sx={{ overflow: "hidden" }}>
                 <Group position="apart" px="md">
-                  <Text fw={500}>Features</Text>
+                  <Text fw={500}>Movies</Text>
                   <UnstyledButton component={Link} to="/movies">
                     <Anchor href="#" fz="xs">
                       View all
@@ -281,7 +281,7 @@ export function HeaderMenu() {
           <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
-                Features
+                Movies
               </Box>
               <IconChevronDown size={16} color={theme.fn.primaryColor()} />
             </Center>

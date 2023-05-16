@@ -9,6 +9,8 @@ import {
   Accordion,
   Badge,
   UnstyledButton,
+  Textarea,
+  Button,
 } from "@mantine/core";
 import MovieCover from "../assets/movieCover.jpg";
 import { Comment } from "../components/Comment";
@@ -103,7 +105,18 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
       <div style={{ marginTop: "64px" }}>
         <Title size={42}>Comments</Title>
         <Flex justify={"center"} direction={"column"} gap={64} mt={16} mb={128}>
-          <div></div>
+          <div>
+            <div>
+              <Flex justify={"space-between"}>
+                <Text size={"lg"}>Write your own review</Text>
+                <Rating fractions={2} defaultValue={2.5} size="lg" />
+              </Flex>
+              <Textarea mt="md"></Textarea>
+              <Flex justify={"flex-end"} mt="md">
+                <Button>Send</Button>
+              </Flex>
+            </div>
+          </div>
 
           <div style={{}}>
             <Comment
