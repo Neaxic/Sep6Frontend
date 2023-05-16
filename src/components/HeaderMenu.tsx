@@ -93,7 +93,7 @@ export function HeaderMenu() {
   const { classes, theme } = useStyles();
 
   return (
-    <Box pb={120}>
+    <Box>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
           <Title>Andreas er top</Title>
