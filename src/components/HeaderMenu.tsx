@@ -17,6 +17,7 @@ import {
   ThemeIcon,
   SimpleGrid,
   Anchor,
+  Collapse,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -271,14 +272,15 @@ export function HeaderMenu() {
           <UnstyledButton className={classes.link} component={Link} to="/">
             Home
           </UnstyledButton>
-          <UnstyledButton className={classes.link}>
+          <UnstyledButton className={classes.link} onClick={toggleLinks}>
             <Center inline>
               <Box component="span" mr={5}>
                 Features
               </Box>
-              <IconChevronDown />
+              <IconChevronDown size={16} color={theme.fn.primaryColor()} />
             </Center>
           </UnstyledButton>
+          <Collapse in={linksOpened}>{links}</Collapse>
           <a href="#" className={classes.link}>
             Learn
           </a>
