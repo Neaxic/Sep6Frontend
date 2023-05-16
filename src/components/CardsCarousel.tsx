@@ -1,14 +1,5 @@
 import { Carousel } from "@mantine/carousel";
-import { useMediaQuery } from "@mantine/hooks";
-import {
-  createStyles,
-  Paper,
-  Text,
-  Title,
-  Button,
-  useMantineTheme,
-  rem,
-} from "@mantine/core";
+import { createStyles, Paper, Text, Title, Button, rem } from "@mantine/core";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -110,8 +101,6 @@ const data = [
 ];
 
 export function CardsCarousel() {
-  const theme = useMantineTheme();
-  const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const slides = data.map((item) => (
     <Carousel.Slide key={item.title}>
       <Card {...item} />
@@ -124,7 +113,7 @@ export function CardsCarousel() {
       breakpoints={[{ maxWidth: "sm", slideSize: "100%", slideGap: rem(2) }]}
       slideGap="xl"
       align="start"
-      slidesToScroll={mobile ? 1 : 2}
+      slidesToScroll={1}
     >
       {slides}
     </Carousel>

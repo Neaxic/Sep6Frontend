@@ -13,7 +13,7 @@ import {
   Drawer,
   ScrollArea,
   rem,
-  Title,
+  Text,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconChevronDown } from "@tabler/icons-react";
@@ -96,7 +96,16 @@ export function HeaderMenu() {
     <Box>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
-          <Title>Andreas er top</Title>
+          <Text
+            variant="gradient"
+            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+            sx={{ fontFamily: "Greycliff CF, sans-serif" }}
+            ta="center"
+            fz="xl"
+            fw={900}
+          >
+            MOVIEMANIA
+          </Text>
 
           <Group
             sx={{ height: "100%" }}
