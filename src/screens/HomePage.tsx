@@ -1,9 +1,15 @@
-import { Page } from "../components/Page";
+import { CardsCarousel } from "../components/CardsCarousel";
+import { HeroText } from "../components/HeroText";
 
 export const HomePage = () => {
   return (
     <div>
-      <p>yo</p>
+      <div style={{ marginTop: "128px" }}>
+        <HeroText></HeroText>
+      </div>
+      <div style={{ marginTop: "64px" }}>
+        <CardsCarousel></CardsCarousel>
+      </div>
     </div>
   );
 };

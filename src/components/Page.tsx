@@ -15,7 +15,9 @@ export const Page = ({
   return (
     <div>
       <HeaderMenu></HeaderMenu>
-      <div>{children}</div>
+      <div style={{ marginLeft: "5%", marginRight: "5%" }}>
+        <div>{children}</div>
+      </div>
     </div>
   );
 };
