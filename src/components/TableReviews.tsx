@@ -1,4 +1,11 @@
-import { Table, Anchor, ScrollArea, Rating } from "@mantine/core";
+import {
+  Table,
+  Anchor,
+  ScrollArea,
+  Rating,
+  UnstyledButton,
+} from "@mantine/core";
+import { Link } from "react-router-dom";
 
 interface TableReviewsProps {
   data: {
@@ -6,6 +13,7 @@ interface TableReviewsProps {
     author: string;
     year: number;
     reviews: number;
+    isbn: string;
   }[];
 }
 
@@ -14,16 +22,14 @@ export function TableReviews({ data }: TableReviewsProps) {
     return (
       <tr key={row.title}>
         <td>
-          <Anchor component="button" fz="sm">
-            {row.title}
-          </Anchor>
+          <UnstyledButton component={Link} to={`/movie/${row.isbn}`}>
+            <Anchor component="button" fz="sm">
+              {row.title}
+            </Anchor>
+          </UnstyledButton>
         </td>
         <td>{row.year}</td>
-        <td>
-          <Anchor component="button" fz="sm">
-            {row.author}
-          </Anchor>
-        </td>
+        <td>{row.author}</td>
         <td>{Intl.NumberFormat().format(2)}</td>
         <td>
           <Rating value={row.reviews} fractions={2} readOnly></Rating>
