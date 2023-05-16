@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import {
   createStyles,
   Header,
@@ -5,29 +6,17 @@ import {
   Group,
   Button,
   UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
-  Anchor,
   Divider,
   Center,
   Box,
   Burger,
   Drawer,
-  Collapse,
   ScrollArea,
   rem,
+  Title,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import {
-  IconNotification,
-  IconCode,
-  IconBook,
-  IconChartPie3,
-  IconFingerprint,
-  IconCoin,
-  IconChevronDown,
-} from "@tabler/icons-react";
+import { IconChevronDown } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -107,6 +96,8 @@ export function HeaderMenu() {
     <Box pb={120}>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
+          <Title>Andreas er top</Title>
+
           <Group
             sx={{ height: "100%" }}
             spacing={0}
