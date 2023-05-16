@@ -6,6 +6,7 @@ import {
   Container,
   rem,
 } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -125,11 +126,18 @@ export function HeroText() {
             size="lg"
             variant="default"
             color="gray"
+            component={Link}
+            to={"/movies"}
           >
-            Book a demo
+            View all moveis
           </Button>
-          <Button className={classes.control} size="lg">
-            Purchase a license
+          <Button
+            className={classes.control}
+            size="lg"
+            component={Link}
+            to={"/signup"}
+          >
+            Register account
           </Button>
         </div>
       </div>
