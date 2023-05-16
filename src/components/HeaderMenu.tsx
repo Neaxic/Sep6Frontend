@@ -23,18 +23,11 @@ import { useDisclosure } from "@mantine/hooks";
 import {
   IconBolt,
   IconBook,
-  IconChartPie3,
   IconChevronDown,
-  IconCircleArrowUpLeftFilled,
-  IconCode,
-  IconCoin,
   IconCrown,
-  IconFingerprint,
   IconFlame,
-  IconNotification,
   IconPlaneArrival,
   IconStar,
-  IconStarFilled,
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
@@ -214,9 +207,11 @@ export function HeaderMenu() {
               <HoverCard.Dropdown sx={{ overflow: "hidden" }}>
                 <Group position="apart" px="md">
                   <Text fw={500}>Features</Text>
-                  <Anchor href="#" fz="xs">
-                    View all
-                  </Anchor>
+                  <UnstyledButton component={Link} to="/movies">
+                    <Anchor href="#" fz="xs">
+                      View all
+                    </Anchor>
+                  </UnstyledButton>
                 </Group>
 
                 <Divider

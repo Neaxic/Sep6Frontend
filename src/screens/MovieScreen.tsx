@@ -8,9 +8,11 @@ import {
   Title,
   Accordion,
   Badge,
+  UnstyledButton,
 } from "@mantine/core";
 import MovieCover from "../assets/movieCover.jpg";
 import { Comment } from "../components/Comment";
+import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -18,6 +20,7 @@ export interface MovieScreenProps {
 
 export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
+  const [bookmarked, setBookmarked] = React.useState(false);
 
   return (
     <div style={{ marginTop: "125px" }} {...props}>
@@ -31,6 +34,19 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
         />
         <div style={{ width: "128px" }}></div>
         <div style={{ width: "100%" }}>
+          <Flex justify={"space-between"}>
+            <Text>ISBN: {isbn}</Text>
+            <UnstyledButton onClick={() => setBookmarked(!bookmarked)}>
+              {!bookmarked ? (
+                <IconBookmarkPlus size={32}></IconBookmarkPlus>
+              ) : (
+                <IconBookmarkMinus
+                  size={32}
+                  color={"#e69c27"}
+                ></IconBookmarkMinus>
+              )}
+            </UnstyledButton>
+          </Flex>
           <Flex align={"center"} justify={"space-between"}>
             <Title size={42}>The Shawshank Redemption</Title>
             <Rating defaultValue={4.5} size="lg" fractions={2} readOnly />
@@ -87,6 +103,8 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
       <div style={{ marginTop: "64px" }}>
         <Title size={42}>Comments</Title>
         <Flex justify={"center"} direction={"column"} gap={64} mt={16} mb={128}>
+          <div></div>
+
           <div style={{}}>
             <Comment
               postedAt="17 February 2021"
