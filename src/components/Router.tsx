@@ -3,6 +3,8 @@ import { HomePage } from "../screens/HomePage";
 import { Page } from "./Page";
 import { MoviesScreen } from "../screens/MoviesScreen";
 import { MovieScreen } from "../screens/MovieScreen";
+import { LoginScreen } from "../screens/LoginScreen";
+import { SignUpScreen } from "../screens/SignUpScreen";
 
 export const Router = () => {
   return (
@@ -12,6 +14,8 @@ export const Router = () => {
         <Route path="lol" element={<p>yo</p>} />
         <Route path="movies" element={<MoviesScreen />} />
         <Route path="movie/:title" element={<MovieScreen />} />
+        <Route path="login" element={<LoginScreen />} />
+        <Route path="signUp" element={<SignUpScreen />} />
       </Routes>
     </Page>
   );
