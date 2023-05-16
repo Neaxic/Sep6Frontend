@@ -1,6 +1,5 @@
 import { CardsCarousel } from "../components/CardsCarousel";
 import { HeroText } from "../components/HeroText";
-import { Page } from "../components/Page";
 
 export const HomePage = () => {
   return (
