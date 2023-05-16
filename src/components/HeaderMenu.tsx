@@ -21,13 +21,20 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
+  IconBolt,
   IconBook,
   IconChartPie3,
   IconChevronDown,
+  IconCircleArrowUpLeftFilled,
   IconCode,
   IconCoin,
+  IconCrown,
   IconFingerprint,
+  IconFlame,
   IconNotification,
+  IconPlaneArrival,
+  IconStar,
+  IconStarFilled,
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 
@@ -102,34 +109,34 @@ const useStyles = createStyles((theme) => ({
 
 const mockdata = [
   {
-    icon: IconCode,
-    title: "Open source",
-    description: "This Pokémon’s cry is very loud and distracting",
+    icon: IconStar,
+    title: "Highest rated",
+    description: "View the highest rated movies and TV shows of all time",
   },
   {
-    icon: IconCoin,
-    title: "Free for everyone",
-    description: "The fluid of Smeargle’s tail secretions changes",
+    icon: IconPlaneArrival,
+    title: "Just landed",
+    description: "Check out the latest movies and TV shows",
+  },
+  {
+    icon: IconFlame,
+    title: "Currently hot",
+    description: "See what's trending in movies and TV shows",
+  },
+  {
+    icon: IconCrown,
+    title: "Top 250 movies",
+    description: "View the top 250 movies as voted by our users",
+  },
+  {
+    icon: IconBolt,
+    title: "Picks for you",
+    description: "Get personalized movie and TV show recommendations",
   },
   {
     icon: IconBook,
-    title: "Documentation",
-    description: "Yanma is capable of seeing 360 degrees without",
-  },
-  {
-    icon: IconFingerprint,
-    title: "Security",
-    description: "The shell’s rounded shape and the grooves on its.",
-  },
-  {
-    icon: IconChartPie3,
-    title: "Analytics",
-    description: "This Pokémon uses its flying ability to quickly chase",
-  },
-  {
-    icon: IconNotification,
-    title: "Notifications",
-    description: "Combusken battles with the intensely hot flames it spews",
+    title: "Browse by genre",
+    description: "Browse movies and TV shows by genre",
   },
 ];
 
@@ -229,10 +236,12 @@ export function HeaderMenu() {
                         Get started
                       </Text>
                       <Text size="xs" color="dimmed">
-                        Their food sources have decreased, and their numbers
+                        Signup to bookmark, rate and review your favorite movies
                       </Text>
                     </div>
-                    <Button variant="default">Get started</Button>
+                    <Button variant="default" component={Link} to="/signup">
+                      Get started
+                    </Button>
                   </Group>
                 </div>
               </HoverCard.Dropdown>
