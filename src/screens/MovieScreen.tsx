@@ -10,6 +10,7 @@ import {
   Badge,
 } from "@mantine/core";
 import MovieCover from "../assets/movieCover.jpg";
+import { Comment } from "../components/Comment";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -35,7 +36,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
             <Rating defaultValue={4.5} size="lg" fractions={2} readOnly />
           </Flex>
 
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
             <Badge>Horror</Badge>
             <Badge>Idk</Badge>
             <Badge>True story</Badge>
@@ -82,6 +83,32 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
           </div>
         </div>
       </Flex>
+
+      <div style={{ marginTop: "64px" }}>
+        <Title size={42}>Comments</Title>
+        <Flex justify={"center"} direction={"column"} gap={64} mt={16} mb={128}>
+          <div style={{}}>
+            <Comment
+              postedAt="17 February 2021"
+              rating={3.5}
+              body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
+            The ultimate story of friendship, of hope, and of life, and overcoming adversity.
+            I understand why so many class this as the best film of all time, it isn't mine, but I get it. If you haven't seen it, or haven't seen it for some time, you need to watch it, it's"
+              author={{ name: "Sleepin_Dragon", image: "lol" }}
+            />
+          </div>
+          <div style={{}}>
+            <Comment
+              postedAt="17 February 2021"
+              rating={1}
+              body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
+            The ultimate story of friendship, of hope, and of life, and overcoming adversity.
+            I understand why so many class this as the best film of all time, it isn't mine, but I get it. If you haven't seen it, or haven't seen it for some time, you need to watch it, it's"
+              author={{ name: "Sleepin_Dragon", image: "lol" }}
+            />
+          </div>
+        </Flex>
+      </div>
     </div>
   );
 };
