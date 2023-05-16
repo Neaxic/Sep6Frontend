@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Header } from "./Header";
+import { HeaderMenu } from "./HeaderMenu";
 
 interface PageProps {
   title?: string;
@@ -14,7 +14,7 @@ export const Page = ({
 }: PageProps) => {
   return (
     <div>
-      <Header></Header>
+      <HeaderMenu></HeaderMenu>
       <div>{children}</div>
     </div>
   );
