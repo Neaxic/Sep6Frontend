@@ -13,7 +13,7 @@ export const Router = () => {
         <Route index element={<HomePage />} />
         <Route path="lol" element={<p>yo</p>} />
         <Route path="movies" element={<MoviesScreen />} />
-        <Route path="movie/:title" element={<MovieScreen />} />
+        <Route path="movie/:isbn" element={<MovieScreen />} />
         <Route path="login" element={<LoginScreen />} />
         <Route path="signUp" element={<SignUpScreen />} />
       </Routes>

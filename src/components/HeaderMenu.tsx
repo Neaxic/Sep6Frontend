@@ -162,16 +162,18 @@ export function HeaderMenu() {
     <Box>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: "100%" }}>
-          <Text
-            variant="gradient"
-            gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-            sx={{ fontFamily: "Greycliff CF, sans-serif" }}
-            ta="center"
-            fz="xl"
-            fw={900}
-          >
-            MOVIEMANIA
-          </Text>
+          <UnstyledButton component={Link} to="/">
+            <Text
+              variant="gradient"
+              gradient={{ from: "indigo", to: "cyan", deg: 45 }}
+              sx={{ fontFamily: "Greycliff CF, sans-serif" }}
+              ta="center"
+              fz="xl"
+              fw={900}
+            >
+              MOVIEMANIA
+            </Text>
+          </UnstyledButton>
 
           <Group
             sx={{ height: "100%" }}
