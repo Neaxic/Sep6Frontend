@@ -30,7 +30,7 @@ import {
   IconStar,
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
-
+import { Avatar } from "@mantine/core";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -139,7 +139,7 @@ export function HeaderMenu() {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
 
   const { classes, theme } = useStyles();
-
+  const IsLogIn = true;
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group noWrap align="flex-start">
@@ -244,12 +244,16 @@ export function HeaderMenu() {
           </Group>
 
           <Group className={classes.hiddenMobile}>
-            <Button variant="default" component={Link} to="login">
-              Log in
-            </Button>
-            <Button component={Link} to="signup">
-              Sign up
-            </Button>
+            {IsLogIn ? (
+              <Link to="/profile">
+                <Avatar radius="xl" />
+              </Link>
+            ) : (
+              <>
+                <Button variant="default">Log in</Button>
+                <Button>Sign up</Button>
+              </>
+            )}
           </Group>
 
           <Burger
@@ -300,8 +304,16 @@ export function HeaderMenu() {
           />
 
           <Group position="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button>Sign up</Button>
+            {IsLogIn ? (
+              <Link to="/profile">
+                <Avatar radius="xl" />
+              </Link>
+            ) : (
+              <>
+                <Button variant="default">Log in</Button>
+                <Button>Sign up</Button>
+              </>
+            )}
           </Group>
         </ScrollArea>
       </Drawer>
