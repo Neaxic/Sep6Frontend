@@ -1,5 +1,7 @@
-interface HeaderProps {}
-
-export const Header = ({}: HeaderProps) => {
-  return <div className="card"></div>;
+export const Header = () => {
+  return (
+    <div>
+      <p>Lol</p>
+    </div>
+  );
 };

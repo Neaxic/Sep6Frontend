@@ -2,9 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import { HomePage } from "../screens/HomePage";
 import { Page } from "./Page";
 
-interface RouterProps {}
-
-export const Router = ({}: RouterProps) => {
+export const Router = () => {
   return (
     <Page>
       <Routes>

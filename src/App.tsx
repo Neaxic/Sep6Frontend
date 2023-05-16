@@ -1,26 +1,33 @@
-import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { Button, Card, ConfigProvider, theme } from "antd";
 import { Router } from "./components/Router";
-import { PageProvider, usePageContext } from "./contexts/PageContext";
+import { PageProvider } from "./contexts/PageContext";
+import { ColorScheme, MantineProvider } from "@mantine/core";
+import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 
 function App() {
-  const { defaultAlgorithm, darkAlgorithm } = theme;
-  let { isDarkMode } = usePageContext();
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "mantine-color-scheme",
+    defaultValue: "dark",
+    getInitialValueInEffect: true,
+  });
+
+  const toggleColorScheme = (value?: ColorScheme) => {
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"));
+  };
+
+  useHotkeys([["mod+J", () => toggleColorScheme()]]);
 
   return (
     <PageProvider>
-      <ConfigProvider
+      <MantineProvider
         theme={{
-          algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-          token: {
-            colorPrimary: "#00b96b",
-          },
+          colorScheme,
         }}
+        withGlobalStyles
+        withNormalizeCSS
       >
         <Router></Router>
-      </ConfigProvider>
+      </MantineProvider>
     </PageProvider>
   );
 }

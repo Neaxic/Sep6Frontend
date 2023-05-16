@@ -1,5 +1,4 @@
 import { ReactNode } from "react";
-import { JsxElement } from "typescript";
 import { Header } from "./Header";
 
 interface PageProps {
