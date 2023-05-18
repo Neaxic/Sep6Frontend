@@ -31,6 +31,7 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mantine/core";
+import { useUserContext } from "../contexts/UserContext";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -139,7 +140,7 @@ export function HeaderMenu() {
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
 
   const { classes, theme } = useStyles();
-  const IsLogIn = true;
+  const { loggedIn } = useUserContext();
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group noWrap align="flex-start">
@@ -233,10 +234,12 @@ export function HeaderMenu() {
                   <Group position="apart">
                     <div>
                       <Text fw={500} fz="sm">
-                        Get started
+                        {loggedIn ? "Welcome back" : "New here?"}
                       </Text>
                       <Text size="xs" color="dimmed">
-                        Signup to bookmark, rate and review your favorite movies
+                        {loggedIn
+                          ? "Check out your very own profile page!"
+                          : "Signup to bookmark, rate and review your favorite movies!"}
                       </Text>
                     </div>
                     <Button variant="default" component={Link} to="/signup">
@@ -249,14 +252,18 @@ export function HeaderMenu() {
           </Group>
 
           <Group className={classes.hiddenMobile}>
-            {IsLogIn ? (
+            {loggedIn ? (
               <Link to="/profile">
                 <Avatar radius="xl" />
               </Link>
             ) : (
               <>
-                <Button variant="default">Log in</Button>
-                <Button>Sign up</Button>
+                <Button variant="default" component={Link} to="login">
+                  Log in
+                </Button>
+                <Button component={Link} to="signup">
+                  Sign up
+                </Button>
               </>
             )}
           </Group>
@@ -309,14 +316,18 @@ export function HeaderMenu() {
           />
 
           <Group position="center" grow pb="xl" px="md">
-            {IsLogIn ? (
+            {loggedIn ? (
               <Link to="/profile">
                 <Avatar radius="xl" />
               </Link>
             ) : (
               <>
-                <Button variant="default">Log in</Button>
-                <Button>Sign up</Button>
+                <Button variant="default" component={Link} to="login">
+                  Log in
+                </Button>
+                <Button component={Link} to="signup">
+                  Sign up
+                </Button>
               </>
             )}
           </Group>

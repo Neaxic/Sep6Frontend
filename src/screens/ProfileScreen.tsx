@@ -1,8 +1,7 @@
-import { Avatar, Text, Card, Center, Button, Flex, Grid } from "@mantine/core";
+import { Text, Card, Button, Flex } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useUserContext } from "../contexts/UserContext";
 import { UserCardImage } from "../components/UserCardImage";
-import IMDB_Logo_2016 from "../assets/IMDB_Logo_2016.svg";
 
 export interface ProfileScreenProps {
   // Props goes here
@@ -111,7 +110,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                     { maxWidth: "sm", slideSize: "100%", slideGap: 0 },
                   ]}
                 >
-                  {userReviews.map((film, index) => (
+                  {userBookmarks.map((film, index) => (
                     <Carousel.Slide>
                       <Card
                         key={index}
@@ -146,10 +145,6 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                           />
                         </div>
                         <Text variant="h3">{film.movieTitle}</Text>
-                        <Text
-                          variant="h5"
-                          color="gray"
-                        >{`Rating: ${film.rating}`}</Text>
                         <Button size="sm">Rediger</Button>
                       </Card>
                     </Carousel.Slide>

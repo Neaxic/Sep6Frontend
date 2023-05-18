@@ -7,6 +7,7 @@ interface UserContextInterface {
   userRole: string;
   userBookmarks: IUserBookmarks[];
   userReviews: IUserReview[];
+  loggedIn: boolean;
 }
 
 export const UserContext = React.createContext<UserContextInterface>({
@@ -14,9 +15,11 @@ export const UserContext = React.createContext<UserContextInterface>({
   userRole: "",
   userBookmarks: [],
   userReviews: [],
+  loggedIn: false,
 });
 
 export const UserProvider = (props: any) => {
+  const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
   const [userRole, setUserRole] = useState<string>("");
   const [userReviews, setUserReviews] = useState<IUserReview[]>([]);
@@ -25,6 +28,7 @@ export const UserProvider = (props: any) => {
   React.useEffect(() => {
     setUsername("IReallyLikeReviewing");
     setUserRole("Admin");
+    setLoggedIn(false);
     setUserBookmarks([]);
     setUserReviews([
       {
@@ -77,6 +81,7 @@ export const UserProvider = (props: any) => {
   return (
     <UserContext.Provider
       value={{
+        loggedIn,
         username,
         userRole,
         userBookmarks,
