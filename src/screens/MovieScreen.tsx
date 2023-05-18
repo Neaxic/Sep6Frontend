@@ -15,6 +15,7 @@ import {
 import MovieCover from "../assets/movieCover.jpg";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
+import { useForm } from "@mantine/form";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -23,6 +24,22 @@ export interface MovieScreenProps {
 export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
   const [bookmarked, setBookmarked] = React.useState(false);
+  const form = useForm({
+    initialValues: {
+      rating: 2.5,
+      comment: "",
+    },
+    validate: {
+      rating: (val) => (val > 0 && val <= 5 ? null : "Invalid rating"),
+      comment: (val) =>
+        val.length <= 6 ? "Comment should include at least 6 characters" : null,
+    },
+  });
+
+  const handleFormSubmit = () => {
+    console.log(form.values); // Log the form object
+    form.reset();
+  };
 
   return (
     <div style={{ marginTop: "125px" }} {...props}>
@@ -106,16 +123,32 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
         <Title size={42}>Comments</Title>
         <Flex justify={"center"} direction={"column"} gap={64} mt={16} mb={128}>
           <div>
-            <div>
+            <form onSubmit={form.onSubmit(() => {})}>
               <Flex justify={"space-between"}>
                 <Text size={"lg"}>Write your own review</Text>
-                <Rating fractions={2} defaultValue={2.5} size="lg" />
+                <Rating
+                  fractions={2}
+                  defaultValue={2.5}
+                  value={form.values.rating}
+                  onChange={(event) => form.setFieldValue("rating", event)}
+                  size="lg"
+                />
               </Flex>
-              <Textarea mt="md"></Textarea>
+              <Textarea
+                mt="md"
+                value={form.values.comment}
+                onChange={(event) =>
+                  form.setFieldValue("comment", event.currentTarget.value)
+                }
+                error={
+                  form.errors.comment &&
+                  "Comment should include at least 6 characters"
+                }
+              ></Textarea>
               <Flex justify={"flex-end"} mt="md">
-                <Button>Send</Button>
+                <Button onClick={handleFormSubmit}>Send</Button>
               </Flex>
-            </div>
+            </form>
           </div>
 
           <div style={{}}>

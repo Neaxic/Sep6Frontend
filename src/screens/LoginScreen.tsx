@@ -33,6 +33,7 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
   });
   const handleFormSubmit = () => {
     console.log(form.values); // Log the form object
+    form.reset();
   };
   return (
     <Container size={420} my={40}>

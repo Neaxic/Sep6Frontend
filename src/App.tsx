@@ -1,6 +1,8 @@
 import "./App.css";
 import { Router } from "./components/Router";
+import { MovieProvider } from "./contexts/MovieContext";
 import { PageProvider } from "./contexts/PageContext";
+import { UserProvider } from "./contexts/UserContext";
 import { ColorScheme, MantineProvider } from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 
@@ -19,15 +21,19 @@ function App() {
 
   return (
     <PageProvider>
-      <MantineProvider
-        theme={{
-          colorScheme,
-        }}
-        withGlobalStyles
-        withNormalizeCSS
-      >
-        <Router></Router>
-      </MantineProvider>
+      <UserProvider>
+        <MovieProvider>
+          <MantineProvider
+            theme={{
+              colorScheme,
+            }}
+            withGlobalStyles
+            withNormalizeCSS
+          >
+            <Router></Router>
+          </MantineProvider>
+        </MovieProvider>
+      </UserProvider>
     </PageProvider>
   );
 }
