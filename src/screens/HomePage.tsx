@@ -77,7 +77,7 @@ export const HomePage = () => {
           Or just view at all movies
         </Text>
         <Button component={Link} to={"/movies"}>
-          Goto
+          Here
         </Button>
       </Flex>
     </div>
