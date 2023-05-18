@@ -146,7 +146,6 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                           />
                         </div>
                         <Text variant="h3">{film.movieTitle}</Text>
-                        {film.comment && <Text>{film.comment}</Text>}
                         <Text
                           variant="h5"
                           color="gray"
