@@ -8,6 +8,15 @@ interface UserContextInterface {
   userBookmarks: IUserBookmarks[];
   userReviews: IUserReview[];
   loggedIn: boolean;
+  login: (email: string, password: string) => void;
+  signup: (
+    email: string,
+    username: string,
+    firstname: string,
+    lastname: string,
+    password: string
+  ) => void;
+  postReview: (comment: string, rating: number) => void;
 }
 
 export const UserContext = React.createContext<UserContextInterface>({
@@ -16,6 +25,9 @@ export const UserContext = React.createContext<UserContextInterface>({
   userBookmarks: [],
   userReviews: [],
   loggedIn: false,
+  login: () => {},
+  signup: () => {},
+  postReview: () => {},
 });
 
 export const UserProvider = (props: any) => {
@@ -78,6 +90,24 @@ export const UserProvider = (props: any) => {
     ]);
   }, []);
 
+  const login = async (email: string, password: string) => {
+    //API CALL
+  };
+
+  const signup = async (
+    email: string,
+    username: string,
+    firstname: string,
+    lastname: string,
+    password: string
+  ) => {
+    //API CALL
+  };
+
+  const postReview = async (comment: string, rating: number) => {
+    //API CALL
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -86,6 +116,9 @@ export const UserProvider = (props: any) => {
         userRole,
         userBookmarks,
         userReviews,
+        login,
+        signup,
+        postReview,
       }}
     >
       {props.children}
