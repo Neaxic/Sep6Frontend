@@ -1,9 +1,11 @@
 import * as React from "react";
 import { useState } from "react";
 import { IUserBookmarks, IUserReview } from "../misc/types";
+import { useNavigate } from "react-router-dom";
 
 interface UserContextInterface {
   username: string;
+  email: string;
   userRole: string;
   userBookmarks: IUserBookmarks[];
   userReviews: IUserReview[];
@@ -22,6 +24,7 @@ interface UserContextInterface {
 
 export const UserContext = React.createContext<UserContextInterface>({
   username: "",
+  email: "",
   userRole: "",
   userBookmarks: [],
   userReviews: [],
@@ -33,8 +36,10 @@ export const UserContext = React.createContext<UserContextInterface>({
 });
 
 export const UserProvider = (props: any) => {
+  const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   const [userRole, setUserRole] = useState<string>("");
   const [userReviews, setUserReviews] = useState<IUserReview[]>([]);
   const [userBookmarks, setUserBookmarks] = useState<IUserBookmarks[]>([]);
@@ -42,6 +47,7 @@ export const UserProvider = (props: any) => {
   React.useEffect(() => {
     setUsername("IReallyLikeReviewing");
     setUserRole("Admin");
+    setEmail("andreas@gmail.com");
     setLoggedIn(false);
     setUserBookmarks([]);
     setUserReviews([
@@ -114,9 +120,11 @@ export const UserProvider = (props: any) => {
   const logout = async () => {
     setLoggedIn(false);
     setUsername("");
+    setEmail("");
     setUserRole("");
     setUserBookmarks([]);
     setUserReviews([]);
+    navigate("/");
   };
 
   return (
@@ -124,6 +132,7 @@ export const UserProvider = (props: any) => {
       value={{
         loggedIn,
         username,
+        email,
         userRole,
         userBookmarks,
         userReviews,

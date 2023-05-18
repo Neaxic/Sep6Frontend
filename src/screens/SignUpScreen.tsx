@@ -26,6 +26,9 @@ export function SignUpScreen(props: PaperProps) {
     },
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
+      username: (val) => (val.length <= 3 ? "Invalid username" : null),
+      firstname: (val) => (val.length <= 3 ? "Invalid firstname" : null),
+      lastname: (val) => (val.length <= 3 ? "Invalid lastname" : null),
       password: (val) =>
         val.length <= 6
           ? "Password should include at least 6 characters"
@@ -76,6 +79,7 @@ export function SignUpScreen(props: PaperProps) {
               label="Username"
               placeholder="your Username"
               required
+              error={form.errors.username && "Invalid username"}
               value={form.values.username}
               onChange={(event) =>
                 form.setFieldValue("username", event.currentTarget.value)
@@ -85,6 +89,7 @@ export function SignUpScreen(props: PaperProps) {
               label="First Name"
               placeholder="Your Firstname"
               required
+              error={form.errors.firstname && "Invalid firstname"}
               value={form.values.firstname}
               onChange={(event) =>
                 form.setFieldValue("firstname", event.currentTarget.value)
@@ -94,6 +99,7 @@ export function SignUpScreen(props: PaperProps) {
               label="Last Name"
               placeholder="Your Lastname"
               required
+              error={form.errors.lastname && "Invalid lastname"}
               value={form.values.lastname}
               onChange={(event) =>
                 form.setFieldValue("lastname", event.currentTarget.value)
