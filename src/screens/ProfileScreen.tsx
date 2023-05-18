@@ -1,8 +1,9 @@
-import React from "react";
-import { Avatar, Text, Card, Center, Button } from "@mantine/core";
+import React, { useState } from "react";
+import { Avatar, Text, Card, Center, Button, Slider } from "@mantine/core";
+import { useHover } from "@mantine/hooks";
 
 export interface ProfileScreenProps {
-  // Props går her
+  // Props goes here
 }
 
 export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
@@ -12,33 +13,39 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
       kommentar: "Lort",
       rating: Math.floor(Math.random() * 5),
       image:
-        "http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/neutral-face.png",
+        "https://www.elgiganten.dk/image/dv_web_D180001002957408/DVDHP6DOC/harry-potter-og-halvblodsprinsen-dokumentar-dvd--pdp_zoom-3000.jpg",
     },
     {
       title: "Star Wars",
       rating: Math.floor(Math.random() * 5),
       image:
-        "http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/neutral-face.png",
+        "https://www.elgiganten.dk/image/dv_web_D1800010021291949/571132/star-wars-jedi-survivor-deluxe-edition-xbox-series-x--pdp_zoom-3000--pdp_main-960.jpg",
     },
     {
-      title: "The Lord of the Ring",
+      title: "The Lord of the Rings",
       rating: Math.floor(Math.random() * 5),
       image:
-        "http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/neutral-face.png",
+        "https://m.media-amazon.com/images/I/51kfFS5-fnL._SY291_BO1,204,203,200_QL40_FMwebp_.jpg",
     },
     {
       title: "Jurassic Park",
       kommentar: "Lort",
       rating: Math.floor(Math.random() * 5),
       image:
-        "http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/neutral-face.png",
+        "https://www.elgiganten.dk/image/dv_web_D180001002295082/BDVDJURPARK13/jurassic-park-ultimate-trilogy-blu-ray--pdp_zoom-3000--pdp_main-960.jpg",
     },
   ];
 
-  //const handleEdit = (film) => {
-  // Logik for at håndtere redigeringen af en film
-  //console.log("Rediger", film);
-  //};
+  const { hovered, ref } = useHover();
+  const [sliderValue, setSliderValue] = useState<number>(0);
+
+  const handleSliderChange = (value: number) => {
+    setSliderValue(value);
+  };
+
+  const startIndex = Math.floor(sliderValue / 50) * 2;
+  const endIndex = startIndex + 2;
+  const displayedFilms = films.slice(startIndex, endIndex);
 
   return (
     <Card shadow="sm" padding="lg">
@@ -47,38 +54,53 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
       </Center>
 
       <Text align="center" variant="h1">
-        John Doe
+        Username
       </Text>
       <Text align="center" variant="h4" color="gray">
-        Webudvikler
+        Gay andreas
       </Text>
 
       <div
         style={{
           marginTop: "2rem",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+          display: "flex",
+          justifyContent: "center",
           gap: "1rem",
         }}
       >
-        {films.map((film, index) => (
+        {displayedFilms.map((film, index) => (
           <Card
             key={index}
             shadow="sm"
             padding="md"
-            style={{ border: "1px solid #2c3f48", borderRadius: "4px" }}
+            style={{
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              width: "250px",
+            }}
           >
-            <img
-              src={film.image}
-              alt={film.title}
+            <div
               style={{
+                position: "relative",
                 width: "100%",
-                objectFit: "cover",
+                height: "200px",
                 marginBottom: "1rem",
                 borderRadius: "50%",
+                overflow: "hidden",
               }}
-            />
-
+            >
+              <img
+                src={film.image}
+                alt={film.title}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  objectPosition: "center",
+                  borderRadius: "50%",
+                }}
+              />
+            </div>
             <Text variant="h3">{film.title}</Text>
             {film.kommentar && <Text>{film.kommentar}</Text>}
             <Text variant="h5" color="gray">{`Rating: ${film.rating}`}</Text>
@@ -86,6 +108,24 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
           </Card>
         ))}
       </div>
+      <Slider
+        value={sliderValue}
+        onChange={handleSliderChange}
+        min={0}
+        max={100}
+        ref={ref}
+        label={null}
+        styles={{
+          thumb: {
+            transition: "opacity 150ms ease",
+            opacity: hovered ? 1 : 0,
+          },
+          dragging: {
+            opacity: 1,
+          },
+        }}
+        style={{ marginTop: "2rem" }}
+      />
     </Card>
   );
 };
