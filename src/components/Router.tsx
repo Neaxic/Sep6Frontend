@@ -6,6 +6,7 @@ import { MovieScreen } from "../screens/MovieScreen";
 import { LoginScreen } from "../screens/LoginScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
+import { ErrorScreen } from "../screens/ErrorScreen";
 
 export const Router = () => {
   return (
@@ -18,6 +19,7 @@ export const Router = () => {
         <Route path="login" element={<LoginScreen />} />
         <Route path="signUp" element={<SignUpScreen />} />
         <Route path="profile" element={<ProfileScreen />} />
+        <Route path="*" element={<ErrorScreen />} />
       </Routes>
     </Page>
   );
