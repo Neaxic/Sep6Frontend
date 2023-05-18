@@ -13,26 +13,25 @@ const useStyles = createStyles((theme) => ({
     backgroundColor:
       theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
   },
-
   avatar: {
     border: `${rem(2)} solid ${
       theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white
     }`,
   },
 }));
-
 interface UserCardImageProps {
   avatar: string;
   name: string;
   job: string;
   stats: { label: string; value: string }[];
+  followable: boolean;
 }
-
 export function UserCardImage({
   avatar,
   name,
   job,
   stats,
+  followable = false,
 }: UserCardImageProps) {
   const { classes, theme } = useStyles();
 
@@ -46,7 +45,6 @@ export function UserCardImage({
       </Text>
     </div>
   ));
-
   return (
     <Card
       withBorder
@@ -73,6 +71,17 @@ export function UserCardImage({
       <Group mt="md" position="center" spacing={30}>
         {items}
       </Group>
+      {followable && (
+        <Button
+          fullWidth
+          radius="md"
+          mt="xl"
+          size="md"
+          color={theme.colorScheme === "dark" ? undefined : "dark"}
+        >
+          Follow
+        </Button>
+      )}
     </Card>
   );
 }

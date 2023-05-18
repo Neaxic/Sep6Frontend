@@ -18,6 +18,7 @@ import {
   SimpleGrid,
   Anchor,
   Collapse,
+  Input,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -31,6 +32,7 @@ import {
 } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { Avatar } from "@mantine/core";
+import { useState } from "react";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -157,6 +159,7 @@ export function HeaderMenu() {
       </Group>
     </UnstyledButton>
   ));
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <Box>
@@ -180,6 +183,7 @@ export function HeaderMenu() {
               MOVIEMANIA
             </Text>
           </UnstyledButton>
+
           <Group
             sx={{ height: "100%" }}
             spacing={0}
@@ -246,6 +250,11 @@ export function HeaderMenu() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
+            <Input
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search movies..."
+            />
           </Group>
 
           <Group className={classes.hiddenMobile}>
