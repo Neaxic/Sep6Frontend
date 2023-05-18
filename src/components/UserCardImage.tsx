@@ -24,7 +24,7 @@ interface UserCardImageProps {
   name: string;
   job: string;
   stats: { label: string; value: string }[];
-  followable: boolean;
+  followable?: boolean;
 }
 export function UserCardImage({
   avatar,

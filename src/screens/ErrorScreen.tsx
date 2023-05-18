@@ -8,6 +8,7 @@ import {
   Group,
   rem,
 } from "@mantine/core";
+import { Link } from "react-router-dom";
 
 export interface ErrorScreenProps {
   //Props goes here
@@ -76,7 +77,9 @@ export const ErrorScreen = ({ ...props }: ErrorScreenProps) => {
             this is an error contact support.
           </Text>
           <Group position="center">
-            <Button size="md">Take me back to home page</Button>
+            <Button size="md" component={Link} to={""}>
+              Take me back to home page
+            </Button>
           </Group>
         </div>
       </div>
