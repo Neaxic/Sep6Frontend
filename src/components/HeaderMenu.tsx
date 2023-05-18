@@ -19,6 +19,9 @@ import {
   Anchor,
   Collapse,
   Input,
+  Menu,
+  useMantineTheme,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
@@ -27,12 +30,17 @@ import {
   IconChevronDown,
   IconCrown,
   IconFlame,
+  IconMoon,
   IconPlaneArrival,
+  IconSettings,
   IconStar,
+  IconSun,
 } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
-import { Avatar } from "@mantine/core";
 import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar, ColorScheme } from "@mantine/core";
+import { useUserContext } from "../contexts/UserContext";
+import { UserButton } from "./UserButton";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -136,12 +144,14 @@ const mockdata = [
 ];
 
 export function HeaderMenu() {
+  const navigate = useNavigate();
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { classes, theme } = useStyles();
+  const { loggedIn, username, email, logout } = useUserContext();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
 
-  const { classes, theme } = useStyles();
-  const IsLogIn = true;
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group noWrap align="flex-start">
@@ -237,14 +247,20 @@ export function HeaderMenu() {
                   <Group position="apart">
                     <div>
                       <Text fw={500} fz="sm">
-                        Get started
+                        {loggedIn ? "Welcome back" : "New here?"}
                       </Text>
                       <Text size="xs" color="dimmed">
-                        Signup to bookmark, rate and review your favorite movies
+                        {loggedIn
+                          ? "Check out your very own profile page!"
+                          : "Signup to bookmark, rate and review your favorite movies!"}
                       </Text>
                     </div>
-                    <Button variant="default" component={Link} to="/signup">
-                      Get started
+                    <Button
+                      variant="default"
+                      component={Link}
+                      to={loggedIn ? "/profile" : "/signup"}
+                    >
+                      {loggedIn ? "Go to profile" : "Get started"}
                     </Button>
                   </Group>
                 </div>
@@ -258,14 +274,58 @@ export function HeaderMenu() {
           </Group>
 
           <Group className={classes.hiddenMobile}>
-            {IsLogIn ? (
-              <Link to="/profile">
-                <Avatar radius="xl" />
-              </Link>
+            {loggedIn ? (
+              <Menu>
+                <Menu.Target>
+                  <UnstyledButton>
+                    <UserButton name={username} email={email} image="a" />
+                  </UnstyledButton>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                  <Menu.Label>Application</Menu.Label>
+
+                  <Menu.Item
+                    icon={<IconStar size={14} />}
+                    onClick={() => {
+                      navigate("/profile");
+                    }}
+                  >
+                    Profile
+                  </Menu.Item>
+                  <Menu.Item
+                    icon={
+                      colorScheme === "light" ? (
+                        <IconMoon size={14} />
+                      ) : (
+                        <IconSun size={14} />
+                      )
+                    }
+                    onClick={() => {
+                      toggleColorScheme();
+                    }}
+                  >
+                    {colorScheme === "light" ? "Darkmode" : "Lightmode"}
+                  </Menu.Item>
+
+                  <Menu.Label>Danger zone</Menu.Label>
+                  <Menu.Item
+                    color="red"
+                    icon={<IconFlame size={14} />}
+                    onClick={() => logout()}
+                  >
+                    Sign out
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             ) : (
               <>
-                <Button variant="default">Log in</Button>
-                <Button>Sign up</Button>
+                <Button variant="default" component={Link} to="login">
+                  Log in
+                </Button>
+                <Button component={Link} to="signup">
+                  Sign up
+                </Button>
               </>
             )}
           </Group>
@@ -318,14 +378,18 @@ export function HeaderMenu() {
           />
 
           <Group position="center" grow pb="xl" px="md">
-            {IsLogIn ? (
+            {loggedIn ? (
               <Link to="/profile">
                 <Avatar radius="xl" />
               </Link>
             ) : (
               <>
-                <Button variant="default">Log in</Button>
-                <Button>Sign up</Button>
+                <Button variant="default" component={Link} to="login">
+                  Log in
+                </Button>
+                <Button component={Link} to="signup">
+                  Sign up
+                </Button>
               </>
             )}
           </Group>

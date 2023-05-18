@@ -3,7 +3,11 @@ import { Router } from "./components/Router";
 import { MovieProvider } from "./contexts/MovieContext";
 import { PageProvider } from "./contexts/PageContext";
 import { UserProvider } from "./contexts/UserContext";
-import { ColorScheme, MantineProvider } from "@mantine/core";
+import {
+  ColorScheme,
+  ColorSchemeProvider,
+  MantineProvider,
+} from "@mantine/core";
 import { useHotkeys, useLocalStorage } from "@mantine/hooks";
 
 function App() {
@@ -23,15 +27,20 @@ function App() {
     <PageProvider>
       <UserProvider>
         <MovieProvider>
-          <MantineProvider
-            theme={{
-              colorScheme,
-            }}
-            withGlobalStyles
-            withNormalizeCSS
+          <ColorSchemeProvider
+            colorScheme={colorScheme}
+            toggleColorScheme={toggleColorScheme}
           >
-            <Router></Router>
-          </MantineProvider>
+            <MantineProvider
+              theme={{
+                colorScheme,
+              }}
+              withGlobalStyles
+              withNormalizeCSS
+            >
+              <Router></Router>
+            </MantineProvider>
+          </ColorSchemeProvider>
         </MovieProvider>
       </UserProvider>
     </PageProvider>

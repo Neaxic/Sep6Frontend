@@ -11,13 +11,17 @@ import {
   Text,
 } from "@mantine/core";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
+import { useUserContext } from "../contexts/UserContext";
 export interface LoginScreenProps {
   //Props goes here
 }
 
 export const LoginScreen = ({ ...props }: LoginScreenProps) => {
+  const { login } = useUserContext();
+  const navigate = useNavigate();
+
   const form = useForm({
     initialValues: {
       email: "",
@@ -31,10 +35,18 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
           : null,
     },
   });
+
   const handleFormSubmit = () => {
-    console.log(form.values); // Log the form object
-    form.reset();
+    form.validate();
+
+    if (form.isValid()) {
+      login(form.values.email, form.values.password); // Call the login function from the context
+      form.reset();
+      navigate("/"); // Redirect to the home page
+    }
+    //TODO: Error handling
   };
+
   return (
     <Container size={420} my={40}>
       <Title
@@ -82,13 +94,7 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
               Forgot password?
             </Anchor>
           </Group>
-          <Button
-            onClick={handleFormSubmit}
-            fullWidth
-            mt="xl"
-            component={Link}
-            to="/"
-          >
+          <Button onClick={handleFormSubmit} fullWidth mt="xl">
             Sign in
           </Button>
         </Paper>

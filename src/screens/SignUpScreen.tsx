@@ -11,8 +11,11 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Link } from "react-router-dom";
-import React from "react";
+import { useUserContext } from "../contexts/UserContext";
+
 export function SignUpScreen(props: PaperProps) {
+  const { signup } = useUserContext();
+
   const form = useForm({
     initialValues: {
       email: "",
@@ -23,15 +26,33 @@ export function SignUpScreen(props: PaperProps) {
     },
     validate: {
       email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
+      username: (val) => (val.length <= 3 ? "Invalid username" : null),
+      firstname: (val) => (val.length <= 3 ? "Invalid firstname" : null),
+      lastname: (val) => (val.length <= 3 ? "Invalid lastname" : null),
       password: (val) =>
         val.length <= 6
           ? "Password should include at least 6 characters"
           : null,
     },
   });
-  const handleFormSubmit = () => {
-    console.log(form.values); // Log the form object
+
+  const handleFormSubmit = async () => {
+    form.validate();
+
+    if (form.isValid()) {
+      await signup(
+        form.values.email,
+        form.values.username,
+        form.values.firstname,
+        form.values.lastname,
+        form.values.password
+      ); // Call the signup function from the context
+
+      //TODO: Error handling
+      form.reset();
+    }
   };
+
   return (
     <Container size={420} my={40}>
       <Title align="center" weight={900}>
@@ -58,6 +79,7 @@ export function SignUpScreen(props: PaperProps) {
               label="Username"
               placeholder="your Username"
               required
+              error={form.errors.username && "Invalid username"}
               value={form.values.username}
               onChange={(event) =>
                 form.setFieldValue("username", event.currentTarget.value)
@@ -67,6 +89,7 @@ export function SignUpScreen(props: PaperProps) {
               label="First Name"
               placeholder="Your Firstname"
               required
+              error={form.errors.firstname && "Invalid firstname"}
               value={form.values.firstname}
               onChange={(event) =>
                 form.setFieldValue("firstname", event.currentTarget.value)
@@ -76,6 +99,7 @@ export function SignUpScreen(props: PaperProps) {
               label="Last Name"
               placeholder="Your Lastname"
               required
+              error={form.errors.lastname && "Invalid lastname"}
               value={form.values.lastname}
               onChange={(event) =>
                 form.setFieldValue("lastname", event.currentTarget.value)
