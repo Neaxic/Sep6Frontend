@@ -11,8 +11,11 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Link } from "react-router-dom";
-import React from "react";
+import { useUserContext } from "../contexts/UserContext";
+
 export function SignUpScreen(props: PaperProps) {
+  const { signup } = useUserContext();
+
   const form = useForm({
     initialValues: {
       email: "",
@@ -29,9 +32,24 @@ export function SignUpScreen(props: PaperProps) {
           : null,
     },
   });
-  const handleFormSubmit = () => {
-    console.log(form.values); // Log the form object
+
+  const handleFormSubmit = async () => {
+    form.validate();
+
+    if (form.isValid()) {
+      await signup(
+        form.values.email,
+        form.values.username,
+        form.values.firstname,
+        form.values.lastname,
+        form.values.password
+      ); // Call the signup function from the context
+
+      //TODO: Error handling
+      form.reset();
+    }
   };
+
   return (
     <Container size={420} my={40}>
       <Title align="center" weight={900}>

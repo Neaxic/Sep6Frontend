@@ -16,6 +16,7 @@ interface UserContextInterface {
     lastname: string,
     password: string
   ) => void;
+  logout: () => void;
   postReview: (comment: string, rating: number) => void;
 }
 
@@ -27,6 +28,7 @@ export const UserContext = React.createContext<UserContextInterface>({
   loggedIn: false,
   login: () => {},
   signup: () => {},
+  logout: () => {},
   postReview: () => {},
 });
 
@@ -92,6 +94,7 @@ export const UserProvider = (props: any) => {
 
   const login = async (email: string, password: string) => {
     //API CALL
+    setLoggedIn(true);
   };
 
   const signup = async (
@@ -108,6 +111,14 @@ export const UserProvider = (props: any) => {
     //API CALL
   };
 
+  const logout = async () => {
+    setLoggedIn(false);
+    setUsername("");
+    setUserRole("");
+    setUserBookmarks([]);
+    setUserReviews([]);
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -119,6 +130,7 @@ export const UserProvider = (props: any) => {
         login,
         signup,
         postReview,
+        logout,
       }}
     >
       {props.children}
