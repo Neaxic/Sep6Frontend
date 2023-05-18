@@ -166,7 +166,13 @@ export function HeaderMenu() {
             <Text
               variant="gradient"
               gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-              sx={{ fontFamily: "Greycliff CF, sans-serif" }}
+              sx={{
+                fontFamily: "Greycliff CF, sans-serif",
+                transition: "opacity 0.3s ease-in-out",
+                "&:hover": {
+                  opacity: 0.7,
+                },
+              }}
               ta="center"
               fz="xl"
               fw={900}
@@ -174,7 +180,6 @@ export function HeaderMenu() {
               MOVIEMANIA
             </Text>
           </UnstyledButton>
-
           <Group
             sx={{ height: "100%" }}
             spacing={0}

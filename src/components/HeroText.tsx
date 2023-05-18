@@ -129,7 +129,7 @@ export function HeroText() {
             component={Link}
             to={"/movies"}
           >
-            View all moveis
+            View all movies
           </Button>
           <Button
             className={classes.control}
