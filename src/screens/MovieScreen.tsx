@@ -16,6 +16,8 @@ import MovieCover from "../assets/movieCover.jpg";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
+import { fetchMovie } from "../api/TMDBMovie";
+import { IMovie } from "../misc/types";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -24,6 +26,7 @@ export interface MovieScreenProps {
 export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
   const [bookmarked, setBookmarked] = React.useState(false);
+  const [movie, setMovie] = React.useState<IMovie>();
   const form = useForm({
     initialValues: {
       rating: 2.5,
@@ -41,138 +44,169 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
     form.reset();
   };
 
+  const featchingData = React.useCallback(async () => {
+    if (isbn) {
+      const movieOBJ = (await fetchMovie(isbn)) as IMovie;
+      setMovie(movieOBJ);
+    }
+  }, [isbn]);
+
+  React.useEffect(() => {
+    featchingData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div style={{ marginTop: "125px" }} {...props}>
-      <Flex>
-        <Image
-          maw={640}
-          mx="auto"
-          radius="md"
-          src={MovieCover}
-          alt="wolf of wall street"
-        />
-        <div style={{ width: "128px" }}></div>
-        <div style={{ width: "100%" }}>
-          <Flex justify={"space-between"}>
-            <Text>ISBN: {isbn}</Text>
-            <UnstyledButton onClick={() => setBookmarked(!bookmarked)}>
-              {!bookmarked ? (
-                <IconBookmarkPlus size={32}></IconBookmarkPlus>
-              ) : (
-                <IconBookmarkMinus
-                  size={32}
-                  color={"#e69c27"}
-                ></IconBookmarkMinus>
-              )}
-            </UnstyledButton>
-          </Flex>
-          <Flex align={"center"} justify={"space-between"}>
-            <Title size={42}>The Shawshank Redemption</Title>
-            <Rating defaultValue={4.5} size="lg" fractions={2} readOnly />
-          </Flex>
+      {movie ? (
+        <>
+          <Flex>
+            <Image
+              maw={640}
+              mx="auto"
+              radius="md"
+              src={
+                "https://image.tmdb.org/t/p/w220_and_h330_face/" +
+                movie?.poster_path
+              }
+              alt="wolf of wall street"
+            />
+            <div style={{ width: "128px" }}></div>
+            <div style={{ width: "100%" }}>
+              <Flex justify={"space-between"}>
+                <UnstyledButton onClick={() => setBookmarked(!bookmarked)}>
+                  {!bookmarked ? (
+                    <IconBookmarkPlus size={32}></IconBookmarkPlus>
+                  ) : (
+                    <IconBookmarkMinus
+                      size={32}
+                      color={"#e69c27"}
+                    ></IconBookmarkMinus>
+                  )}
+                </UnstyledButton>
+              </Flex>
+              <Flex align={"center"} justify={"space-between"}>
+                <Title size={42}>{movie?.title}</Title>
+                <Rating defaultValue={4.5} size="lg" fractions={2} readOnly />
+              </Flex>
 
-          <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
-            <Badge>Horror</Badge>
-            <Badge>Idk</Badge>
-            <Badge>True story</Badge>
-            <Badge>Realistic</Badge>
-          </div>
+              <div style={{ display: "flex", gap: "10px", marginTop: "20px" }}>
+                {movie.genres && (
+                  <>
+                    {movie?.genres.map((genre) => (
+                      <Badge key={genre.id}>{genre.name}</Badge>
+                    ))}
+                  </>
+                )}
+              </div>
 
-          <Flex mt="md">
-            <Text>
-              Chronicles the experiences of a formerly successful banker as a
-              prisoner in the gloomy jailhouse of Shawshank after being found
-              guilty of a crime he did not commit. The film portrays the man's
-              unique way of dealing with his new, torturous life; along the way
-              he befriends a number of fellow prisoners, most notably a wise
-              long-term inmate named Red.—J-S-Golden
-            </Text>
+              <Flex mt="md" direction={"column"}>
+                <Flex direction={"row"}>
+                  <Text color="gray">Release date</Text>
+                  <Text color="gray">: {movie.release_date}</Text>
+                </Flex>
+                <Text>{movie?.overview}</Text>
+              </Flex>
+
+              <div style={{ marginTop: "64px" }}>
+                <Accordion>
+                  <Accordion.Item value="customization">
+                    <Accordion.Control>Directors</Accordion.Control>
+                    <Accordion.Panel>
+                      Colors, fonts, shadows and many other parts are
+                      customizable to fit your design needs
+                    </Accordion.Panel>
+                  </Accordion.Item>
+
+                  <Accordion.Item value="flexibility">
+                    <Accordion.Control>Writers</Accordion.Control>
+                    <Accordion.Panel>
+                      Configure components appearance and behavior with vast
+                      amount of settings or overwrite any part of component
+                      styles
+                    </Accordion.Panel>
+                  </Accordion.Item>
+
+                  <Accordion.Item value="focus-ring">
+                    <Accordion.Control>Actors</Accordion.Control>
+                    <Accordion.Panel>
+                      With new :focus-visible pseudo-class focus ring appears
+                      only when user navigates with keyboard
+                    </Accordion.Panel>
+                  </Accordion.Item>
+                </Accordion>
+              </div>
+            </div>
           </Flex>
 
           <div style={{ marginTop: "64px" }}>
-            <Accordion>
-              <Accordion.Item value="customization">
-                <Accordion.Control>Directors</Accordion.Control>
-                <Accordion.Panel>
-                  Colors, fonts, shadows and many other parts are customizable
-                  to fit your design needs
-                </Accordion.Panel>
-              </Accordion.Item>
+            <Title size={42}>Comments</Title>
+            <Flex
+              justify={"center"}
+              direction={"column"}
+              gap={64}
+              mt={16}
+              mb={128}
+            >
+              <div>
+                <form onSubmit={form.onSubmit(() => {})}>
+                  <Flex justify={"space-between"}>
+                    <Text size={"lg"}>Write your own review</Text>
+                    <Rating
+                      fractions={2}
+                      defaultValue={2.5}
+                      value={form.values.rating}
+                      onChange={(event) => form.setFieldValue("rating", event)}
+                      size="lg"
+                    />
+                  </Flex>
+                  <Textarea
+                    mt="md"
+                    value={form.values.comment}
+                    onChange={(event) =>
+                      form.setFieldValue("comment", event.currentTarget.value)
+                    }
+                    error={
+                      form.errors.comment &&
+                      "Comment should include at least 6 characters"
+                    }
+                  ></Textarea>
+                  <Flex justify={"flex-end"} mt="md">
+                    <Button onClick={handleFormSubmit}>Send</Button>
+                  </Flex>
+                </form>
+              </div>
 
-              <Accordion.Item value="flexibility">
-                <Accordion.Control>Writers</Accordion.Control>
-                <Accordion.Panel>
-                  Configure components appearance and behavior with vast amount
-                  of settings or overwrite any part of component styles
-                </Accordion.Panel>
-              </Accordion.Item>
-
-              <Accordion.Item value="focus-ring">
-                <Accordion.Control>Actors</Accordion.Control>
-                <Accordion.Panel>
-                  With new :focus-visible pseudo-class focus ring appears only
-                  when user navigates with keyboard
-                </Accordion.Panel>
-              </Accordion.Item>
-            </Accordion>
-          </div>
-        </div>
-      </Flex>
-
-      <div style={{ marginTop: "64px" }}>
-        <Title size={42}>Comments</Title>
-        <Flex justify={"center"} direction={"column"} gap={64} mt={16} mb={128}>
-          <div>
-            <form onSubmit={form.onSubmit(() => {})}>
-              <Flex justify={"space-between"}>
-                <Text size={"lg"}>Write your own review</Text>
-                <Rating
-                  fractions={2}
-                  defaultValue={2.5}
-                  value={form.values.rating}
-                  onChange={(event) => form.setFieldValue("rating", event)}
-                  size="lg"
+              <div style={{}}>
+                <Comment
+                  postedAt="17 February 2021"
+                  rating={3.5}
+                  body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
+            The ultimate story of friendship, of hope, and of life, and overcoming adversity.
+            I understand why so many class this as the best film of all time, it isn't mine, but I get it. If you haven't seen it, or haven't seen it for some time, you need to watch it, it's"
+                  author={{ name: "Sleepin_Dragon", image: "lol" }}
                 />
-              </Flex>
-              <Textarea
-                mt="md"
-                value={form.values.comment}
-                onChange={(event) =>
-                  form.setFieldValue("comment", event.currentTarget.value)
-                }
-                error={
-                  form.errors.comment &&
-                  "Comment should include at least 6 characters"
-                }
-              ></Textarea>
-              <Flex justify={"flex-end"} mt="md">
-                <Button onClick={handleFormSubmit}>Send</Button>
-              </Flex>
-            </form>
-          </div>
-
-          <div style={{}}>
-            <Comment
-              postedAt="17 February 2021"
-              rating={3.5}
-              body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
+              </div>
+              <div style={{}}>
+                <Comment
+                  postedAt="17 February 2021"
+                  rating={1}
+                  body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
             The ultimate story of friendship, of hope, and of life, and overcoming adversity.
             I understand why so many class this as the best film of all time, it isn't mine, but I get it. If you haven't seen it, or haven't seen it for some time, you need to watch it, it's"
-              author={{ name: "Sleepin_Dragon", image: "lol" }}
-            />
+                  author={{ name: "Sleepin_Dragon", image: "lol" }}
+                />
+              </div>
+            </Flex>
           </div>
-          <div style={{}}>
-            <Comment
-              postedAt="17 February 2021"
-              rating={1}
-              body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
-            The ultimate story of friendship, of hope, and of life, and overcoming adversity.
-            I understand why so many class this as the best film of all time, it isn't mine, but I get it. If you haven't seen it, or haven't seen it for some time, you need to watch it, it's"
-              author={{ name: "Sleepin_Dragon", image: "lol" }}
-            />
-          </div>
-        </Flex>
-      </div>
+        </>
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };
+function async(arg0: Promise<any>): any {
+  throw new Error("Function not implemented.");
+}
