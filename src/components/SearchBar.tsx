@@ -11,6 +11,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSearch(query);
+    /*Console log er i headermenu */
   };
 
   return (

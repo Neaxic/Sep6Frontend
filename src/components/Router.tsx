@@ -23,7 +23,7 @@ export const Router = () => {
         <Route path="profile" element={<ProfileScreen />} />
         <Route path="api" element={<Apitest />} />
         <Route path="Browser/*" element={<BrowserScreen />} />
-        <Route path="Top250" element={<MovieHot />} />
+        <Route path="Hot" element={<MovieHot />} />
         <Route path="*" element={<ErrorScreen />} />
       </Routes>
     </Page>
