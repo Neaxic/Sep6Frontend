@@ -1,28 +1,33 @@
 import React from "react";
+import { Card, Image, Text } from "@mantine/core";
 
 interface Movie {
   image: string;
   title: string;
   description: string;
+  genreID: number;
 }
 
 const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => (
-  <div
-    style={{
-      border: "1px solid #ddd",
-      margin: "10px",
-      padding: "10px",
-      width: "200px",
-    }}
+  <Card
+    shadow="sm"
+    padding="xl"
+    component="a"
+    target="_blank"
+    style={{ width: "180px", height: "240px" }} // Adjust these values to get your desired card size
   >
-    <img
-      src={movie.image}
-      alt={movie.title}
-      style={{ width: "100%", height: "300px", objectFit: "cover" }}
-    />
-    <h2>{movie.title}</h2>
-    <p>{movie.description}</p>
-  </div>
+    <Card.Section>
+      <Image src={movie.image} height={160} alt={movie.title} />
+    </Card.Section>
+
+    <Text weight={500} size="lg" mt="md">
+      {movie.title}
+    </Text>
+
+    <Text mt="xs" color="dimmed" size="sm">
+      {movie.description}
+    </Text>
+  </Card>
 );
 
 export default MovieCard;

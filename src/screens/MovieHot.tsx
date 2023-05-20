@@ -1,9 +1,10 @@
 import * as React from "react";
 import { MovieData } from "../api/IMovieData";
 import { fetchHotMovies } from "../api/GetHotMovies";
+import MovieCard from "../components/MovieCard"; // Import MovieCard komponenten
 
 export interface ApitestProps {
-  // Props goes here
+  // Props går her
 }
 
 export const MovieHot = ({ ...props }: ApitestProps) => {
@@ -20,23 +21,33 @@ export const MovieHot = ({ ...props }: ApitestProps) => {
         setApiTopData(data);
       }
     } catch (error) {
-      console.error("Error fetching data from API:", error);
+      console.error("Fejl ved hentning af data fra API:", error);
     }
   };
 
   return (
     <div>
-      <h1>Movie List</h1>
-      {apiTopData.map((movie, index) => (
-        <div key={index}>
-          <h2>{movie.original_title}</h2>
-          <p>{movie.popularity}</p>
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.original_title}
-          />
-        </div>
-      ))}
+      <h1 style={{ textAlign: "center" }}>Currently Hot</h1>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+        }}
+      >
+        {apiTopData.map((movie, index) => (
+          <div style={{ margin: "10px" }} key={index}>
+            <MovieCard
+              movie={{
+                image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+                title: movie.original_title,
+                description: `${movie.popularity}`,
+                genreID: 1, // konverterer popularity til en streng, da description forventer en streng.
+              }}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { fetchGenreMovies } from "../api/GetMovieByGenreId";
 import { MovieData } from "../api/IMovieData";
 import { fetchGenre } from "../api/GetGerneList";
 import { GenreData } from "../api/IGenreData";
+import MovieCard from "../components/MovieCard"; // Import MovieCard component
 
 export const BrowserScreen = () => {
   const [movies, setMovies] = useState<MovieData[]>([]);
@@ -35,16 +36,25 @@ export const BrowserScreen = () => {
   return (
     <div>
       <h1>Movie List</h1>
-      {movies.map((movie, index) => (
-        <div key={index}>
-          <h2>{movie.original_title}</h2>
-          <p>{movie.popularity}</p>
-          <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-            alt={movie.original_title}
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+        }}
+      >
+        {movies.map((movie, index) => (
+          <MovieCard
+            key={index}
+            movie={{
+              image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
+              title: movie.original_title,
+              description: `${movie.popularity}`,
+              genreID: 1, // converting popularity to string as description expects a string.
+            }}
           />
-        </div>
-      ))}
+        ))}
+      </div>
       <button onClick={() => handleButtonClick(1)}>Get Genre Movies</button>
     </div>
   );
