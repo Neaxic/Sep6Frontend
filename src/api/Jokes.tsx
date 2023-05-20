@@ -1,8 +1,8 @@
 import axios from "axios";
+import { MovieData } from "./IMovieData"; // adjust the path according to your file structure
 
 const URL =
-  "https://api.themoviedb.org/3/search/movie?query=Harry%20potter&include_adult=false&language=en-US&page=1";
-
+  "https://api.themoviedb.org/3/search/movie?query=Satan's Harvest&include_adult=false&language=en-US&page=1";
 const options = {
   headers: {
     accept: "application/json",
@@ -11,7 +11,7 @@ const options = {
   },
 };
 
-export const fetchMovies = async () => {
+export const fetchMovies = async (): Promise<MovieData | null> => {
   try {
     const response = await axios.get(URL, options);
     return response.data.results[0];

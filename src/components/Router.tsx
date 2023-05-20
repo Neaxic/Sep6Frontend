@@ -8,6 +8,7 @@ import { SignUpScreen } from "../screens/SignUpScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { ErrorScreen } from "../screens/ErrorScreen";
 import { Apitest } from "../screens/Apitest";
+import BrowsScreenTsx from "../screens/BrowsScreenTsx";
 
 export const Router = () => {
   return (
@@ -20,7 +21,8 @@ export const Router = () => {
         <Route path="login" element={<LoginScreen />} />
         <Route path="signUp" element={<SignUpScreen />} />
         <Route path="profile" element={<ProfileScreen />} />
-        <Route path="apitest" element={<Apitest />} />
+        <Route path="api" element={<Apitest />} />
+        <Route path="Browser" element={<BrowsScreenTsx />} />
         <Route path="*" element={<ErrorScreen />} />
       </Routes>
     </Page>
