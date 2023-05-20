@@ -1,8 +1,8 @@
 import { useDisclosure } from "@mantine/hooks";
 import { Popover, Button, Paper, Col, Group, Text } from "@mantine/core";
 import { GenreData } from "../api/IGenreData";
-import { fetchGenre } from "../api/GetGerne";
-import { Link } from "react-router-dom";
+import { fetchGenre } from "../api/GetGerneList";
+import { Link, useNavigate } from "react-router-dom";
 import React from "react";
 
 function GenreListPopover() {
@@ -12,7 +12,7 @@ function GenreListPopover() {
   React.useEffect(() => {
     fetchData();
   }, []);
-
+  const navigate = useNavigate();
   const fetchData = async () => {
     try {
       const res = await fetchGenre();
@@ -35,7 +35,7 @@ function GenreListPopover() {
   const handleClick = (genreName: string) => {
     close(); // Close the popover
     console.log(`You clicked on genre: ${genreName}`);
-    // Add your logic here to handle the click on the genre
+    navigate(`/Browser/${genreName}`);
   };
 
   return (
@@ -52,9 +52,7 @@ function GenreListPopover() {
       <Popover.Dropdown>
         {genreData.map((genre) => (
           <Group key={genre.id} onClick={() => handleClick(genre.name)}>
-            <Link to={`/Browser/${genre.name}`}>
-              <button>{genre.name}</button>
-            </Link>
+            <button>{genre.name}</button>
           </Group>
         ))}
       </Popover.Dropdown>

@@ -8,8 +8,8 @@ import { SignUpScreen } from "../screens/SignUpScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { ErrorScreen } from "../screens/ErrorScreen";
 import { Apitest } from "../screens/Apitest";
-import BrowsScreenTsx from "../screens/BrowsScreenTsx";
-
+import { BrowserScreen } from "../screens/BrowserScreen";
+import { MovieHot } from "../screens/MovieHot";
 export const Router = () => {
   return (
     <Page>
@@ -22,7 +22,8 @@ export const Router = () => {
         <Route path="signUp" element={<SignUpScreen />} />
         <Route path="profile" element={<ProfileScreen />} />
         <Route path="api" element={<Apitest />} />
-        <Route path="Browser" element={<BrowsScreenTsx />} />
+        <Route path="Browser/*" element={<BrowserScreen />} />
+        <Route path="Top250" element={<MovieHot />} />
         <Route path="*" element={<ErrorScreen />} />
       </Routes>
     </Page>

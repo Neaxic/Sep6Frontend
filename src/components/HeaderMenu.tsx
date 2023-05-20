@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+/* Hvordan navigere i Movie */
 import {
   createStyles,
   Header,
@@ -36,11 +37,13 @@ import {
   IconStar,
   IconSun,
 } from "@tabler/icons-react";
+import SearchBar from "./SearchBar";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { BrowserRouter, Link, useNavigate } from "react-router-dom";
 import { Avatar, ColorScheme } from "@mantine/core";
 import { useUserContext } from "../contexts/UserContext";
 import { UserButton } from "./UserButton";
+import GenreListPopover from "./BrowsScreenTsx";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -139,11 +142,14 @@ const mockdata = [
   {
     icon: IconBook,
     title: "Browse by genre",
-    description: "Browse movies and TV shows by genre",
+    description: <GenreListPopover />,
   },
 ];
 
 export function HeaderMenu() {
+  const handleSearch = (query: string) => {
+    console.log(query);
+  };
   const navigate = useNavigate();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes, theme } = useStyles();
@@ -151,7 +157,9 @@ export function HeaderMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-
+  const handleHotMoviesHover = () => {
+    navigate("/MovieHot");
+  };
   const links = mockdata.map((item) => (
     <UnstyledButton className={classes.subLink} key={item.title}>
       <Group noWrap align="flex-start">
@@ -231,6 +239,7 @@ export function HeaderMenu() {
                       View all
                     </Anchor>
                   </UnstyledButton>
+                  <SearchBar onSearch={handleSearch} />{" "}
                 </Group>
 
                 <Divider
@@ -266,11 +275,6 @@ export function HeaderMenu() {
                 </div>
               </HoverCard.Dropdown>
             </HoverCard>
-            <Input
-              value={searchQuery}
-              onChange={(event) => setSearchQuery(event.target.value)}
-              placeholder="Search movies..."
-            />
           </Group>
 
           <Group className={classes.hiddenMobile}>
@@ -352,7 +356,6 @@ export function HeaderMenu() {
             my="sm"
             color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
           />
-
           <UnstyledButton className={classes.link} component={Link} to="/">
             Home
           </UnstyledButton>
@@ -365,18 +368,14 @@ export function HeaderMenu() {
             </Center>
           </UnstyledButton>
           <Collapse in={linksOpened}>{links}</Collapse>
-          <a href="#" className={classes.link}>
-            Learn
-          </a>
+          <SearchBar onSearch={handleSearch} />{" "}
           <a href="#" className={classes.link}>
             Academy
           </a>
-
           <Divider
             my="sm"
             color={theme.colorScheme === "dark" ? "dark.5" : "gray.1"}
           />
-
           <Group position="center" grow pb="xl" px="md">
             {loggedIn ? (
               <Link to="/profile">
