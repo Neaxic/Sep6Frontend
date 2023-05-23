@@ -1,6 +1,10 @@
 import { Button, Flex, Pagination, Title } from "@mantine/core";
 import * as React from "react";
-import { fetchHotMovies, fetchTopratedMovies } from "../api/TMDBMovie";
+import {
+  fetchGenreMovies,
+  fetchHotMovies,
+  fetchTopratedMovies,
+} from "../api/TMDBMovie";
 import MovieCard from "../components/MovieCard";
 import { useParams } from "react-router-dom";
 import { MovieData } from "../api/IMovieData";
@@ -24,7 +28,11 @@ export const CatagoryScreen = ({ ...props }: CatagoryScreenProps) => {
         fetchedMovies = await fetchHotMovies(page);
         break;
       default:
-        fetchedMovies = await fetchTopratedMovies(page);
+        if (type && +type > 0) {
+          fetchedMovies = await fetchGenreMovies(+type);
+        } else {
+          fetchedMovies = await fetchTopratedMovies(page);
+        }
         break;
     }
 

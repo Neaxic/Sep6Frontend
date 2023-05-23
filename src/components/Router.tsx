@@ -9,15 +9,12 @@ import { ProfileScreen } from "../screens/ProfileScreen";
 import { ErrorScreen } from "../screens/ErrorScreen";
 import { Apitest } from "../screens/Apitest";
 import { BrowserScreen } from "../screens/BrowserScreen";
-import { MovieHot } from "../screens/MovieHot";
-import { Top250Movies } from "../screens/Top250Movies";
 import { CatagoryScreen } from "../screens/CatagoryScreen";
 export const Router = () => {
   return (
     <Page>
       <Routes>
         <Route index element={<HomePage />} />
-        <Route path="lol" element={<p>yo</p>} />
         <Route path="movies" element={<MoviesScreen />} />
         <Route path="movie/:isbn" element={<MovieScreen />} />
         <Route path="catagory/:type" element={<CatagoryScreen />} />
@@ -26,8 +23,6 @@ export const Router = () => {
         <Route path="profile" element={<ProfileScreen />} />
         <Route path="api" element={<Apitest />} />
         <Route path="Browser/*" element={<BrowserScreen />} />
-        <Route path="Top" element={<Top250Movies />} />
-        <Route path="Hot" element={<MovieHot />} />
         <Route path="*" element={<ErrorScreen />} />
       </Routes>
     </Page>

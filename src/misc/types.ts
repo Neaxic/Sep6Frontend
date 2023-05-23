@@ -22,6 +22,11 @@ export interface IReview {
   comment: string;
 }
 
+export interface IGenre {
+  id: number;
+  name: string;
+}
+
 export interface IMovie {
   adult?: boolean;
   backdrop_path?: string;

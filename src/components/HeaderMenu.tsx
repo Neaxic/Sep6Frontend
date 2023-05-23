@@ -117,7 +117,7 @@ const mockdata = [
   {
     icon: IconStar,
     title: "Highest rated",
-    link: "/catagory/landed",
+    link: "/catagory/highestrated",
     description: "View the highest rated movies and TV shows of all time",
   },
   {
@@ -147,7 +147,7 @@ const mockdata = [
   {
     icon: IconBook,
     title: "Browse by genre",
-    link: "/catagory/",
+    link: "/catagory/tvshows",
     description: <GenreListPopover />,
   },
 ];

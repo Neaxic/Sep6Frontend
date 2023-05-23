@@ -1,28 +1,34 @@
 import * as React from "react";
 import { useState } from "react";
+import { IGenre } from "../misc/types";
 
 interface MovieContextInterface {
-  isDarkMode: boolean;
-  handleClick: () => void;
+  genres: IGenre[];
 }
 
 export const MovieContext = React.createContext<MovieContextInterface>({
-  isDarkMode: false,
-  handleClick: () => {},
+  genres: [],
 });
 
 export const MovieProvider = (props: any) => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [genres, setGenres] = useState<IGenre[]>([]);
 
-  const handleClick = () => {
-    setIsDarkMode((previousValue) => !previousValue);
-  };
+  React.useEffect(() => {
+    const fetchGenres = async () => {
+      const response = await fetch(
+        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
+      );
+      const data = await response.json();
+      setGenres(data.genres);
+    };
+
+    fetchGenres();
+  }, []);
 
   return (
     <MovieContext.Provider
       value={{
-        isDarkMode,
-        handleClick,
+        genres,
       }}
     >
       {props.children}

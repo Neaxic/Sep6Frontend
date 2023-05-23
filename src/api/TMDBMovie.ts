@@ -19,7 +19,6 @@ export const fetchMovie = async (id: string) => {
     });
 
     const selectedData = response.data;
-    console.log(selectedData);
     return selectedData;
   } catch (e) {
     console.log(e);
@@ -40,7 +39,6 @@ export const fetchTopratedMovies = async (page: number) => {
     });
 
     const selectedData = response.data.results;
-    console.log(selectedData);
     return selectedData;
   } catch (e) {
     console.log(e);
@@ -61,7 +59,45 @@ export const fetchHotMovies = async (page: number) => {
     });
 
     const selectedData = response.data.results;
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchGenres = async () => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/genre/movie/list?language=en`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data.genres;
     console.log(selectedData);
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchGenreMovies = async (genreId: number) => {
+  if (!genreId) return;
+
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/discover/movie?with_genres=${genreId}&language=en-US&page=1`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data.results;
     return selectedData;
   } catch (e) {
     console.log(e);
