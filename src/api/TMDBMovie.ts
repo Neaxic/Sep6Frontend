@@ -25,3 +25,24 @@ export const fetchMovie = async (id: string) => {
     console.log(e);
   }
 };
+
+export const fetchTopratedMovies = async (page: number) => {
+  if (!page) return;
+
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/movie/top_rated?language=en-US&page=${page}`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data.results;
+    console.log(selectedData);
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};

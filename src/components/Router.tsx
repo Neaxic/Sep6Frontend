@@ -11,6 +11,7 @@ import { Apitest } from "../screens/Apitest";
 import { BrowserScreen } from "../screens/BrowserScreen";
 import { MovieHot } from "../screens/MovieHot";
 import { Top250Movies } from "../screens/Top250Movies";
+import { CatagoryScreen } from "../screens/CatagoryScreen";
 export const Router = () => {
   return (
     <Page>
@@ -19,6 +20,7 @@ export const Router = () => {
         <Route path="lol" element={<p>yo</p>} />
         <Route path="movies" element={<MoviesScreen />} />
         <Route path="movie/:isbn" element={<MovieScreen />} />
+        <Route path="catagory/:type" element={<CatagoryScreen />} />
         <Route path="login" element={<LoginScreen />} />
         <Route path="signUp" element={<SignUpScreen />} />
         <Route path="profile" element={<ProfileScreen />} />
