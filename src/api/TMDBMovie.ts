@@ -46,3 +46,24 @@ export const fetchTopratedMovies = async (page: number) => {
     console.log(e);
   }
 };
+
+export const fetchHotMovies = async (page: number) => {
+  if (!page) return;
+
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/movie/popular?language=%2A&page=${page}`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data.results;
+    console.log(selectedData);
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};

@@ -117,31 +117,37 @@ const mockdata = [
   {
     icon: IconStar,
     title: "Highest rated",
+    link: "/catagory/landed",
     description: "View the highest rated movies and TV shows of all time",
   },
   {
     icon: IconPlaneArrival,
     title: "Just landed",
+    link: "/catagory/landed",
     description: "Check out the latest movies and TV shows",
   },
   {
     icon: IconFlame,
     title: "Currently hot",
+    link: "/catagory/hot",
     description: "See what's trending in movies and TV shows",
   },
   {
     icon: IconCrown,
     title: "Top 250 movies",
+    link: "/catagory/top",
     description: "View the top 250 movies as voted by our users",
   },
   {
     icon: IconBolt,
     title: "Picks for you",
+    link: "/catagory/picks",
     description: "Get personalized movie and TV show recommendations",
   },
   {
     icon: IconBook,
     title: "Browse by genre",
+    link: "/catagory/",
     description: <GenreListPopover />,
   },
 ];
@@ -161,7 +167,12 @@ export function HeaderMenu() {
     navigate("/MovieHot");
   };
   const links = mockdata.map((item) => (
-    <UnstyledButton className={classes.subLink} key={item.title}>
+    <UnstyledButton
+      className={classes.subLink}
+      key={item.title}
+      component={Link}
+      to={item.link}
+    >
       <Group noWrap align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">
           <item.icon size={rem(22)} color={theme.fn.primaryColor()} />

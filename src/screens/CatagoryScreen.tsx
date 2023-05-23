@@ -1,6 +1,6 @@
 import { Button, Flex, Pagination, Title } from "@mantine/core";
 import * as React from "react";
-import { fetchTopratedMovies } from "../api/TMDBMovie";
+import { fetchHotMovies, fetchTopratedMovies } from "../api/TMDBMovie";
 import MovieCard from "../components/MovieCard";
 import { useParams } from "react-router-dom";
 import { MovieData } from "../api/IMovieData";
@@ -14,10 +14,21 @@ export const CatagoryScreen = ({ ...props }: CatagoryScreenProps) => {
   const [page, setPage] = React.useState(1);
 
   const fetchMovies = React.useCallback(async () => {
-    if (type === "top") {
-      const fetchedMovies = await fetchTopratedMovies(page);
-      setMovies(fetchedMovies);
+    let fetchedMovies: MovieData[] = [];
+
+    switch (type) {
+      case "top":
+        fetchedMovies = await fetchTopratedMovies(page);
+        break;
+      case "hot":
+        fetchedMovies = await fetchHotMovies(page);
+        break;
+      default:
+        fetchedMovies = await fetchTopratedMovies(page);
+        break;
     }
+
+    setMovies(fetchedMovies);
   }, [page, type]);
 
   React.useEffect(() => {
@@ -28,8 +39,9 @@ export const CatagoryScreen = ({ ...props }: CatagoryScreenProps) => {
 
   return (
     <div {...props}>
-      <h1 style={{ textAlign: "center" }}>{type}</h1>
-      <h1 style={{ textAlign: "center" }}>yo</h1>
+      <h1 style={{ textAlign: "left", marginTop: "128px" }}>
+        Currently browsing {type} movies
+      </h1>
 
       {movies ? (
         <>
