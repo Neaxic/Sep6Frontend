@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { IGenre } from "../misc/types";
+import { fetchGenres } from "../api/TMDBMovie";
 
 interface MovieContextInterface {
   genres: IGenre[];
@@ -14,15 +15,12 @@ export const MovieProvider = (props: any) => {
   const [genres, setGenres] = useState<IGenre[]>([]);
 
   React.useEffect(() => {
-    const fetchGenres = async () => {
-      const response = await fetch(
-        `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.REACT_APP_TMDB_API_KEY}&language=en-US`
-      );
-      const data = await response.json();
-      setGenres(data.genres);
+    const fetchGenresList = async () => {
+      const fetchedGenres = await fetchGenres();
+      setGenres(fetchedGenres);
     };
 
-    fetchGenres();
+    fetchGenresList();
   }, []);
 
   return (

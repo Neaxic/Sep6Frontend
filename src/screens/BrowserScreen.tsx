@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { fetchGenreMovies } from "../api/GetMovieByGenreId";
 import { MovieData } from "../api/IMovieData";
-import { fetchGenre } from "../api/GetGerneList";
-import { GenreData } from "../api/IGenreData";
 import MovieCard from "../components/MovieCard"; // Import MovieCard component
+import { useMovieContext } from "../contexts/MovieContext";
 
 export const BrowserScreen = () => {
+  const { genres } = useMovieContext();
   const [movies, setMovies] = useState<MovieData[]>([]);
   const [genre, setGenre] = useState<number | null>(null);
 

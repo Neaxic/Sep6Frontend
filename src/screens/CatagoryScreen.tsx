@@ -1,4 +1,4 @@
-import { Button, Flex, Pagination, Title } from "@mantine/core";
+import { Flex, Pagination, Title } from "@mantine/core";
 import * as React from "react";
 import {
   fetchGenreMovies,
@@ -8,11 +8,15 @@ import {
 import MovieCard from "../components/MovieCard";
 import { useParams } from "react-router-dom";
 import { MovieData } from "../api/IMovieData";
+import { useMovieContext } from "../contexts/MovieContext";
 
 export interface CatagoryScreenProps {}
 
 export const CatagoryScreen = ({ ...props }: CatagoryScreenProps) => {
   let { type } = useParams();
+  const parsedType = type !== undefined ? +type : undefined;
+
+  const { genres } = useMovieContext();
 
   const [movies, setMovies] = React.useState<MovieData[]>([]);
   const [page, setPage] = React.useState(1);
@@ -47,9 +51,17 @@ export const CatagoryScreen = ({ ...props }: CatagoryScreenProps) => {
 
   return (
     <div {...props}>
-      <h1 style={{ textAlign: "left", marginTop: "128px" }}>
-        Currently browsing {type} movies
-      </h1>
+      {type ? (
+        <h1 style={{ textAlign: "left", marginTop: "128px" }}>
+          Currently browsing{" "}
+          {parsedType !== undefined && parsedType > 0
+            ? genres.find((e) => e.id === parsedType)?.name ?? "unknown"
+            : type ?? "unknown"}{" "}
+          movies
+        </h1>
+      ) : (
+        <h1>Currently browsing </h1>
+      )}
 
       {movies ? (
         <>

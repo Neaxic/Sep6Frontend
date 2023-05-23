@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* Hvordan navigere i Movie */
 import {
   createStyles,
   Header,
@@ -19,9 +18,7 @@ import {
   SimpleGrid,
   Anchor,
   Collapse,
-  Input,
   Menu,
-  useMantineTheme,
   useMantineColorScheme,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -33,17 +30,16 @@ import {
   IconFlame,
   IconMoon,
   IconPlaneArrival,
-  IconSettings,
   IconStar,
   IconSun,
 } from "@tabler/icons-react";
 import SearchBar from "./SearchBar";
 import { useState } from "react";
-import { BrowserRouter, Link, useNavigate } from "react-router-dom";
-import { Avatar, ColorScheme } from "@mantine/core";
+import { Link, useNavigate } from "react-router-dom";
+import { Avatar } from "@mantine/core";
 import { useUserContext } from "../contexts/UserContext";
 import { UserButton } from "./UserButton";
-import GenreListPopover from "./BrowsScreenTsx";
+import GenreListPopover from "./GenreListPopover";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -147,7 +143,6 @@ const mockdata = [
   {
     icon: IconBook,
     title: "Browse by genre",
-    link: "/catagory/tvshows",
     description: <GenreListPopover />,
   },
 ];
@@ -171,7 +166,7 @@ export function HeaderMenu() {
       className={classes.subLink}
       key={item.title}
       component={Link}
-      to={item.link}
+      to={item.link ? item.link : "#"}
     >
       <Group noWrap align="flex-start">
         <ThemeIcon size={34} variant="default" radius="md">

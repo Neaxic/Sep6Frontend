@@ -77,7 +77,6 @@ export const fetchGenres = async () => {
     });
 
     const selectedData = response.data.genres;
-    console.log(selectedData);
     return selectedData;
   } catch (e) {
     console.log(e);
