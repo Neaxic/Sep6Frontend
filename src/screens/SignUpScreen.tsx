@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Container,
   Title,
@@ -12,6 +13,7 @@ import {
 import { useForm } from "@mantine/form";
 import { Link } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
+import { createUserApi } from "../api/TMDBMovie";
 
 export function SignUpScreen(props: PaperProps) {
   const { signup } = useUserContext();
@@ -40,17 +42,19 @@ export function SignUpScreen(props: PaperProps) {
     form.validate();
 
     if (form.isValid()) {
-      await signup(
-        form.values.email,
+      await createUserApi(
         form.values.username,
+        form.values.email,
+        form.values.password,
         form.values.firstname,
-        form.values.lastname,
-        form.values.password
-      ); // Call the signup function from the context
-
-      //TODO: Error handling
-      form.reset();
+        form.values.lastname
+      );
     }
+
+    // TODO: Error handling
+    form.reset();
+
+    // Call the createUserApi function
   };
 
   return (

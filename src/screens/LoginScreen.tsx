@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Anchor,
   Button,
@@ -10,12 +11,13 @@ import {
   Title,
   Text,
 } from "@mantine/core";
-import * as React from "react";
+import { LoginUserApi } from "../api/TMDBMovie";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import { useUserContext } from "../contexts/UserContext";
+
 export interface LoginScreenProps {
-  //Props goes here
+  // Props goes here
 }
 
 export const LoginScreen = ({ ...props }: LoginScreenProps) => {
@@ -24,11 +26,10 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
 
   const form = useForm({
     initialValues: {
-      email: "",
+      username: "",
       password: "",
     },
     validate: {
-      email: (val) => (/^\S+@\S+$/.test(val) ? null : "Invalid email"),
       password: (val) =>
         val.length <= 6
           ? "Password should include at least 6 characters"
@@ -36,15 +37,16 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
     },
   });
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     form.validate();
 
     if (form.isValid()) {
-      login(form.values.email, form.values.password); // Call the login function from the context
+      login(form.values.username, form.values.password);
       form.reset();
-      navigate("/"); // Redirect to the home page
+      navigate("/");
+      await LoginUserApi(form.values.username, form.values.password);
     }
-    //TODO: Error handling
+    // TODO: Error handling
   };
 
   return (
@@ -64,13 +66,13 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
       <form onSubmit={form.onSubmit(() => {})}>
         <Paper withBorder shadow="md" p={30} mt={30} radius="md">
           <TextInput
-            label="Email"
-            placeholder="you@mantine.dev"
-            value={form.values.email}
+            label="Username"
+            placeholder="Username"
+            value={form.values.username}
             onChange={(event) =>
-              form.setFieldValue("email", event.currentTarget.value)
+              form.setFieldValue("username", event.currentTarget.value)
             }
-            error={form.errors.email && "Invalid email"}
+            error={form.errors.username && "Invalid username"}
             radius="md"
             required
           />
