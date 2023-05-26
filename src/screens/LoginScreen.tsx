@@ -22,7 +22,7 @@ export interface LoginScreenProps {
 
 export const LoginScreen = ({ ...props }: LoginScreenProps) => {
   const [serverResponse, setServerResponse] = useState<string>("");
-  const { saveUser } = useUserContext();
+  const { saveUser, setRememberMe } = useUserContext();
   const navigate = useNavigate();
 
   const form = useForm({
@@ -111,7 +111,10 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
             </Text>
           )}
           <Group position="apart" mt="lg">
-            <Checkbox label="Remember me" />
+            <Checkbox
+              label="Remember me"
+              onChange={(event) => setRememberMe(event.currentTarget.checked)}
+            />
             <Anchor component="button" size="sm">
               Forgot password?
             </Anchor>

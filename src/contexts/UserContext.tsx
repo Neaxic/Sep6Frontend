@@ -18,6 +18,7 @@ interface UserContextInterface {
     firstname: string,
     lastname: string
   ) => void;
+  setRememberMe: (rememberMe: boolean) => void;
   logout: () => void;
   postReview: (comment: string, rating: number) => void;
 }
@@ -28,6 +29,7 @@ export const UserContext = React.createContext<UserContextInterface>({
   userReviews: [],
   loggedIn: false,
   saveUser: () => {},
+  setRememberMe: () => {},
   logout: () => {},
   postReview: () => {},
 });
@@ -35,6 +37,7 @@ export const UserContext = React.createContext<UserContextInterface>({
 export const UserProvider = (props: any) => {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
 
   const [userData, setUserData] = useState<IUser | undefined>(undefined);
   const [userReviews, setUserReviews] = useState<IUserReview[]>([]);
@@ -60,7 +63,9 @@ export const UserProvider = (props: any) => {
 
   React.useEffect(() => {
     if (loggedIn && userData) {
-      localStorage.setItem("userData", JSON.stringify(userData));
+      if (rememberMe) {
+        localStorage.setItem("userData", JSON.stringify(userData));
+      }
       fetchProfileData();
     }
   }, [loggedIn, userData]);
@@ -115,6 +120,7 @@ export const UserProvider = (props: any) => {
   return (
     <UserContext.Provider
       value={{
+        setRememberMe,
         loggedIn,
         userData,
         userBookmarks,
