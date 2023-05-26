@@ -1,7 +1,9 @@
-import { Text, Card, Button, Flex } from "@mantine/core";
+import { Text, Card, Button, Flex, UnstyledButton } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { useUserContext } from "../contexts/UserContext";
 import { UserCardImage } from "../components/UserCardImage";
+import { Link } from "react-router-dom";
+import MovieCard from "../components/MovieCard";
 
 export interface ProfileScreenProps {
   // Props goes here
@@ -112,41 +114,17 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                 >
                   {userBookmarks.map((film, index) => (
                     <Carousel.Slide>
-                      <Card
-                        key={index}
-                        shadow="sm"
-                        padding="md"
-                        style={{
-                          border: "1px solid #ccc",
-                          borderRadius: "4px",
-                          width: "250px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            position: "relative",
-                            width: "100%",
-                            height: "200px",
-                            marginBottom: "1rem",
-                            borderRadius: "50%",
-                            overflow: "hidden",
+                      <UnstyledButton component={Link} to={`/movie/${film.id}`}>
+                        <MovieCard
+                          movie={{
+                            id: film.id,
+                            image: ``,
+                            title: film.title,
+                            description: ``,
+                            genreID: 1, // Assuming genreID is required for your MovieCard component.
                           }}
-                        >
-                          <img
-                            src={film.movieSrc}
-                            alt={film.title}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                              objectPosition: "center",
-                              borderRadius: "50%",
-                            }}
-                          />
-                        </div>
-                        <Text variant="h3">{film.title}</Text>
-                        <Button size="sm">Rediger</Button>
-                      </Card>
+                        />
+                      </UnstyledButton>
                     </Carousel.Slide>
                   ))}
                 </Carousel>{" "}
