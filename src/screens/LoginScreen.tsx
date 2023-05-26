@@ -22,7 +22,7 @@ export interface LoginScreenProps {
 
 export const LoginScreen = ({ ...props }: LoginScreenProps) => {
   const [serverResponse, setServerResponse] = useState<string>("");
-  const { login } = useUserContext();
+  const { saveUser } = useUserContext();
   const navigate = useNavigate();
 
   const form = useForm({
@@ -47,7 +47,7 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
         form.values.password
       );
       if (data) {
-        login(
+        saveUser(
           data.id,
           data.username,
           data.email,

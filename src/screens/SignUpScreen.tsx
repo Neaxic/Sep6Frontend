@@ -25,7 +25,7 @@ interface User {
 }
 
 export function SignUpScreen(props: PaperProps) {
-  const { signup } = useUserContext();
+  const { saveUser } = useUserContext();
   const navigate = useNavigate();
 
   const form = useForm({
@@ -49,7 +49,7 @@ export function SignUpScreen(props: PaperProps) {
   });
 
   const handleFormSubmit = async () => {
-    const isSuccess = await createUserApi(
+    const data = await createUserApi(
       form.values.username,
       form.values.email,
       form.values.password,
@@ -57,14 +57,16 @@ export function SignUpScreen(props: PaperProps) {
       form.values.lastname
     );
 
-    if (isSuccess) {
-      const createdUser = {
-        username: form.values.username,
-        email: form.values.email,
-        firstname: form.values.firstname,
-        lastname: form.values.lastname,
-        role: "User",
-      };
+    if (data) {
+      saveUser(
+        data.id,
+        data.username,
+        data.email,
+        data.admin,
+        data.banned,
+        data.firstname,
+        data.lastname
+      );
 
       navigate("/");
     }

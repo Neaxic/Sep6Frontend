@@ -9,7 +9,7 @@ interface UserContextInterface {
   userBookmarks: IUserBookmarks[];
   userReviews: IUserReview[];
   loggedIn: boolean;
-  login: (
+  saveUser: (
     userId: number,
     username: string,
     email: string,
@@ -17,13 +17,6 @@ interface UserContextInterface {
     isBanned: boolean,
     firstname: string,
     lastname: string
-  ) => void;
-  signup: (
-    email: string,
-    username: string,
-    firstname: string,
-    lastname: string,
-    password: string
   ) => void;
   logout: () => void;
   postReview: (comment: string, rating: number) => void;
@@ -34,8 +27,7 @@ export const UserContext = React.createContext<UserContextInterface>({
   userBookmarks: [],
   userReviews: [],
   loggedIn: false,
-  login: () => {},
-  signup: () => {},
+  saveUser: () => {},
   logout: () => {},
   postReview: () => {},
 });
@@ -55,7 +47,7 @@ export const UserProvider = (props: any) => {
     setUserReviews([]);
   }, []);
 
-  const login = async (
+  const saveUser = async (
     userId: number,
     username: string,
     email: string,
@@ -74,17 +66,6 @@ export const UserProvider = (props: any) => {
       lastname: lastname,
     });
 
-    setLoggedIn(true);
-  };
-
-  const signup = async (
-    email: string,
-    username: string,
-    firstname: string,
-    lastname: string,
-    password: string
-  ) => {
-    //API CALL
     setLoggedIn(true);
   };
 
@@ -117,8 +98,7 @@ export const UserProvider = (props: any) => {
         userData,
         userBookmarks,
         userReviews,
-        login,
-        signup,
+        saveUser,
         postReview,
         logout,
       }}

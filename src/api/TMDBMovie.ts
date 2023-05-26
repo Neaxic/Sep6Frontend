@@ -122,13 +122,7 @@ export const createUserApi = async (
       },
     });
 
-    // Check the status of the response.
-    // If it's 200, return true. Otherwise, return false.
-    if (response.status === 200) {
-      return true;
-    } else {
-      return false;
-    }
+    if (response.data) return response.data;
   } catch (e) {
     console.log(e);
     return false;
