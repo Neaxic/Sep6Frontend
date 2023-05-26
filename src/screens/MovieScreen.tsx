@@ -12,12 +12,11 @@ import {
   Textarea,
   Button,
 } from "@mantine/core";
-import MovieCover from "../assets/movieCover.jpg";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import { CreateBookMarks, fetchMovie } from "../api/TMDBMovie";
-import { IMovie } from "../misc/types";
+import { ReviewByMovieId, fetchMovie } from "../api/TMDBMovie";
+import { IMovie, IReview } from "../misc/types";
 import { useUserContext } from "../contexts/UserContext";
 
 export interface MovieScreenProps {
@@ -29,6 +28,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   const { postBookmark, userBookmarks } = useUserContext();
   const [bookmarked, setBookmarked] = React.useState(false);
   const [movie, setMovie] = React.useState<IMovie>();
+  const [reviews, setReviews] = React.useState<IReview[]>([]);
   const form = useForm({
     initialValues: {
       rating: 2.5,
@@ -42,14 +42,22 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   });
 
   const handleFormSubmit = () => {
-    console.log(form.values); // Log the form object
-    form.reset();
+    form.validate();
+    if (form.isValid()) {
+      console.log("valid");
+      //Smid det til apien
+
+      form.reset();
+    }
   };
 
   const featchingData = React.useCallback(async () => {
     if (isbn) {
       const movieOBJ = (await fetchMovie(isbn)) as IMovie;
       setMovie(movieOBJ);
+
+      const reviews = await ReviewByMovieId(+isbn);
+      setReviews(reviews);
     }
   }, [isbn]);
 
@@ -203,26 +211,15 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
                 </form>
               </div>
 
-              <div style={{}}>
+              {reviews.map((review, index) => (
                 <Comment
-                  postedAt="17 February 2021"
-                  rating={3.5}
-                  body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
-            The ultimate story of friendship, of hope, and of life, and overcoming adversity.
-            I understand why so many class this as the best film of all time, it isn't mine, but I get it. If you haven't seen it, or haven't seen it for some time, you need to watch it, it's"
-                  author={{ name: "Sleepin_Dragon", image: "lol" }}
+                  key={index}
+                  postedAt={review.date}
+                  rating={review.rating}
+                  body={review.comment}
+                  author={{ name: review.user, image: "lol" }}
                 />
-              </div>
-              <div style={{}}>
-                <Comment
-                  postedAt="17 February 2021"
-                  rating={1}
-                  body="It is no wonder that the film has such a high rating, it is quite literally breathtaking. What can I say that hasn't said before? Not much, it's the story, the acting, the premise, but most of all, this movie is about how it makes you feel. Sometimes you watch a film, and can't remember it days later, this film loves with you, once you've seen it, you don't forget.
-            The ultimate story of friendship, of hope, and of life, and overcoming adversity.
-            I understand why so many class this as the best film of all time, it isn't mine, but I get it. If you haven't seen it, or haven't seen it for some time, you need to watch it, it's"
-                  author={{ name: "Sleepin_Dragon", image: "lol" }}
-                />
-              </div>
+              ))}
             </Flex>
           </div>
         </>
@@ -232,6 +229,3 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
     </div>
   );
 };
-function async(arg0: Promise<any>): any {
-  throw new Error("Function not implemented.");
-}
