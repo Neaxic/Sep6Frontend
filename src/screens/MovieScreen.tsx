@@ -16,8 +16,9 @@ import MovieCover from "../assets/movieCover.jpg";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import { fetchMovie } from "../api/TMDBMovie";
+import { CreateBookMarks, fetchMovie } from "../api/TMDBMovie";
 import { IMovie } from "../misc/types";
+import { useUserContext } from "../contexts/UserContext";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -25,6 +26,7 @@ export interface MovieScreenProps {
 
 export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
+  const { postBookmark, userBookmarks } = useUserContext();
   const [bookmarked, setBookmarked] = React.useState(false);
   const [movie, setMovie] = React.useState<IMovie>();
   const form = useForm({
@@ -51,11 +53,34 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
     }
   }, [isbn]);
 
+  const registerBookmark = React.useCallback(async () => {
+    if (movie && movie.id && movie.title) {
+      const response = await postBookmark(movie.id, movie.title);
+      if (response) {
+        setBookmarked(!bookmarked);
+      }
+    }
+  }, [bookmarked, movie, postBookmark]);
+
+  const checkBookmarked = React.useCallback(() => {
+    if (userBookmarks && movie && movie.id) {
+      userBookmarks.forEach((bookmark) => {
+        if (bookmark.id === movie.id) {
+          setBookmarked(true);
+        }
+      });
+    }
+  }, [movie, userBookmarks]);
+
   React.useEffect(() => {
     featchingData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    checkBookmarked();
+  }, [userBookmarks, movie, checkBookmarked]);
 
   return (
     <div style={{ marginTop: "125px" }} {...props}>
@@ -75,7 +100,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
             <div style={{ width: "128px" }}></div>
             <div style={{ width: "100%" }}>
               <Flex justify={"space-between"}>
-                <UnstyledButton onClick={() => setBookmarked(!bookmarked)}>
+                <UnstyledButton onClick={() => registerBookmark()}>
                   {!bookmarked ? (
                     <IconBookmarkPlus size={32}></IconBookmarkPlus>
                   ) : (

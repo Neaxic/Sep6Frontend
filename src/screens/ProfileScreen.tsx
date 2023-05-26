@@ -134,7 +134,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                         >
                           <img
                             src={film.movieSrc}
-                            alt={film.movieTitle}
+                            alt={film.title}
                             style={{
                               width: "100%",
                               height: "100%",
@@ -144,7 +144,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                             }}
                           />
                         </div>
-                        <Text variant="h3">{film.movieTitle}</Text>
+                        <Text variant="h3">{film.title}</Text>
                         <Button size="sm">Rediger</Button>
                       </Card>
                     </Carousel.Slide>

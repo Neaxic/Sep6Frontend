@@ -178,7 +178,7 @@ export const CreateBookMarks = async (
   try {
     const response = await axios({
       method: "POST",
-      url: `/createBookmarkAndSaveBook?movie_id=${MovieID}&user_id=${UserID}&title=${MovieTitle}`,
+      url: `${URLKAPS}/createBookmarkAndSaveBook?movie_id=${MovieID}&user_id=${UserID}&title=${MovieTitle}`,
       headers: {
         accept: "application/json",
       },
@@ -186,7 +186,7 @@ export const CreateBookMarks = async (
 
     // Save the result
     const result = response.data;
-    console.log(result);
+    return result;
   } catch (e) {
     console.log(e);
   }
@@ -197,7 +197,7 @@ export const GetMoviesFromDBById = async (MovieID: number) => {
   try {
     const response = await axios({
       method: "GET",
-      url: `/getMovie?id=${MovieID}`,
+      url: `${URLKAPS}/getMovie?id=${MovieID}`,
       headers: {
         accept: "application/json",
       },
@@ -216,7 +216,7 @@ export const CreateMovieForDB = async (MovieID: number, MovieTitle: string) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `/createMovie?id=${MovieID}&title=${MovieTitle}`,
+      url: `${URLKAPS}/createMovie?id=${MovieID}&title=${MovieTitle}`,
       headers: {
         accept: "application/json",
       },
@@ -240,7 +240,7 @@ export const createReview = async (
   try {
     const response = await axios({
       method: "POST",
-      url: `/createReview?comment=${Comment}&rating=${rating}&user_id=${UserID}&movie_id=${MovieID}`,
+      url: `${URLKAPS}/createReview?comment=${Comment}&rating=${rating}&user_id=${UserID}&movie_id=${MovieID}`,
       headers: {
         accept: "application/json",
       },
@@ -259,7 +259,7 @@ export const ReviewByMovieId = async (MovieID: number) => {
   try {
     const response = await axios({
       method: "GET",
-      url: `/getReviewByMovieId?movie_id=${MovieID}`,
+      url: `${URLKAPS}/getReviewByMovieId?movie_id=${MovieID}`,
       headers: {
         accept: "application/json",
       },

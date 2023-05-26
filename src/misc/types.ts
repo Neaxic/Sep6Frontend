@@ -18,8 +18,8 @@ export interface IUser {
 }
 
 export interface IUserBookmarks {
-  movieID: string;
-  movieTitle: string;
+  id: number;
+  title: string;
   movieSrc: string;
   date: string;
 }

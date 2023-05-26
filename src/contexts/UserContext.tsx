@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { IUser, IUserBookmarks, IUserReview } from "../misc/types";
 import { useNavigate } from "react-router-dom";
-import { GetAllBookMarksByUserID } from "../api/TMDBMovie";
+import { CreateBookMarks, GetAllBookMarksByUserID } from "../api/TMDBMovie";
 
 interface UserContextInterface {
   userData: IUser | undefined;
@@ -21,6 +21,7 @@ interface UserContextInterface {
   setRememberMe: (rememberMe: boolean) => void;
   logout: () => void;
   postReview: (comment: string, rating: number) => void;
+  postBookmark: (movieId: number, movieTitel: string) => Promise<boolean>;
 }
 
 export const UserContext = React.createContext<UserContextInterface>({
@@ -32,6 +33,7 @@ export const UserContext = React.createContext<UserContextInterface>({
   setRememberMe: () => {},
   logout: () => {},
   postReview: () => {},
+  postBookmark: async () => false,
 });
 
 export const UserProvider = (props: any) => {
@@ -93,15 +95,21 @@ export const UserProvider = (props: any) => {
   };
 
   const fetchProfileData = async () => {
-    //API CALL
     if (loggedIn) {
       const BookmarkData = await GetAllBookMarksByUserID(userData?.userId!);
       if (BookmarkData) {
-        console.log(setUserBookmarks);
         setUserBookmarks(BookmarkData);
       }
-      // const ReviewData = await GetAllR
     }
+  };
+
+  const postBookmark = async (movieId: number, movieTitel: string) => {
+    if (movieId && userData?.userId) {
+      const data = await CreateBookMarks(movieId, userData?.userId, movieTitel);
+      if (data) return true;
+      else return false;
+    }
+    return false;
   };
 
   const postReview = async (comment: string, rating: number) => {
@@ -127,6 +135,7 @@ export const UserProvider = (props: any) => {
         userReviews,
         saveUser,
         postReview,
+        postBookmark,
         logout,
       }}
     >
