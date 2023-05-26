@@ -104,6 +104,7 @@ export const fetchGenreMovies = async (genreId: number) => {
   }
 };
 /*Create User*/
+/*Create User*/
 export const createUserApi = async (
   username: string,
   email: string,
@@ -115,12 +116,22 @@ export const createUserApi = async (
     const response = await axios({
       method: "POST",
       url: `${URLKAPS}/createUser?username=${username}&password=${password}&email=${email}&firstname=${firstName}&lastName=${lastName}`,
+      withCredentials: false,
       headers: {
         accept: "application/json",
       },
     });
+
+    // Check the status of the response.
+    // If it's 200, return true. Otherwise, return false.
+    if (response.status === 200) {
+      return true;
+    } else {
+      return false;
+    }
   } catch (e) {
     console.log(e);
+    return false;
   }
 };
 
@@ -134,6 +145,134 @@ export const LoginUserApi = async (username: string, password: string) => {
         accept: "application/json",
       },
     });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
+    // Do something with the result here...
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*GetAllBookMarks By UserID*/
+export const GetAllBookMarksByUserID = async (userID: number) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `/getBookmarksByUserId?user_id=${userID}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*CreateBookMarks*/
+export const CreateBookMarks = async (
+  MovieID: number,
+  UserID: number,
+  MovieTitle: string
+) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `/createBookmarkAndSaveBook?movie_id=${MovieID}&user_id=${UserID}&title=${MovieTitle}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*GetAllMoviesInDB*/
+export const GetMoviesFromDBById = async (MovieID: number) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `/getMovie?id=${MovieID}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*CreateMovieForDB*/
+export const CreateMovieForDB = async (MovieID: number, MovieTitle: string) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `/createMovie?id=${MovieID}&title=${MovieTitle}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*CreateReviewForMovie*/
+export const createReview = async (
+  MovieID: number,
+  UserID: number,
+  Comment: string,
+  rating: number
+) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `/createReview?comment=${Comment}&rating=${rating}&user_id=${UserID}&movie_id=${MovieID}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*GetReviewForMovie*/
+export const ReviewByMovieId = async (MovieID: number) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `/getReviewByMovieId?movie_id=${MovieID}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
   } catch (e) {
     console.log(e);
   }

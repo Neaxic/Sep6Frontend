@@ -2,7 +2,6 @@ import * as React from "react";
 import { useState } from "react";
 import { IGenre } from "../misc/types";
 import { fetchGenres } from "../api/TMDBMovie";
-
 interface MovieContextInterface {
   genres: IGenre[];
 }

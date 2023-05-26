@@ -22,14 +22,14 @@ const useStyles = createStyles((theme) => ({
 interface UserCardImageProps {
   avatar: string;
   name: string;
-  job: string;
+  role: string;
   stats: { label: string; value: string }[];
   followable?: boolean;
 }
 export function UserCardImage({
   avatar,
   name,
-  job,
+  role,
   stats,
   followable = false,
 }: UserCardImageProps) {
@@ -66,7 +66,7 @@ export function UserCardImage({
         {name}
       </Text>
       <Text ta="center" fz="sm" c="dimmed">
-        {job}
+        {role}
       </Text>
       <Group mt="md" position="center" spacing={30}>
         {items}

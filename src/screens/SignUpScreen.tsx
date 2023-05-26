@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   Container,
   Title,
@@ -11,12 +11,22 @@ import {
   Stack,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import { createUserApi } from "../api/TMDBMovie";
 
+interface User {
+  username: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  role: string;
+  stats: { label: string; value: string }[];
+}
+
 export function SignUpScreen(props: PaperProps) {
   const { signup } = useUserContext();
+  const navigate = useNavigate();
 
   const form = useForm({
     initialValues: {
@@ -39,22 +49,27 @@ export function SignUpScreen(props: PaperProps) {
   });
 
   const handleFormSubmit = async () => {
-    form.validate();
+    const isSuccess = await createUserApi(
+      form.values.username,
+      form.values.email,
+      form.values.password,
+      form.values.firstname,
+      form.values.lastname
+    );
 
-    if (form.isValid()) {
-      await createUserApi(
-        form.values.username,
-        form.values.email,
-        form.values.password,
-        form.values.firstname,
-        form.values.lastname
-      );
+    if (isSuccess) {
+      const createdUser = {
+        username: form.values.username,
+        email: form.values.email,
+        firstname: form.values.firstname,
+        lastname: form.values.lastname,
+        role: "User",
+      };
+
+      navigate("/");
     }
 
-    // TODO: Error handling
     form.reset();
-
-    // Call the createUserApi function
   };
 
   return (
