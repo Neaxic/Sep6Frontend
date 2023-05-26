@@ -66,7 +66,7 @@ export function UserCardImage({
         {name}
       </Text>
       <Text ta="center" fz="sm" c="dimmed">
-        {role}
+        User role: {role}
       </Text>
       <Group mt="md" position="center" spacing={30}>
         {items}

@@ -72,10 +72,11 @@ export const UserProvider = (props: any) => {
   const fetchProfileData = async () => {
     //API CALL
     if (loggedIn) {
-      const data = await GetAllBookMarksByUserID(userData?.userId!);
-      if (data) {
-        setUserBookmarks(data);
+      const BookmarkData = await GetAllBookMarksByUserID(userData?.userId!);
+      if (BookmarkData) {
+        setUserBookmarks(BookmarkData);
       }
+      // const ReviewData = await GetAllR
     }
   };
 

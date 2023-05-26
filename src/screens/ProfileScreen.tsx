@@ -21,7 +21,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                 <UserCardImage
                   avatar="{IMDB_Logo_2016}"
                   name={userData?.username!}
-                  role={"User role: " + userData?.isAdmin ? "Admin" : "User"}
+                  role={userData?.isAdmin ? "Admin" : "User"}
                   stats={[
                     { label: "Followers", value: "231" },
                     { label: "Following", value: "231" },

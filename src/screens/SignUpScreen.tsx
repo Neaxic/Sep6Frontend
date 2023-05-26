@@ -25,6 +25,7 @@ interface User {
 }
 
 export function SignUpScreen(props: PaperProps) {
+  const [serverResponse, setServerResponse] = React.useState<string>("");
   const { saveUser } = useUserContext();
   const navigate = useNavigate();
 
@@ -49,29 +50,34 @@ export function SignUpScreen(props: PaperProps) {
   });
 
   const handleFormSubmit = async () => {
-    const data = await createUserApi(
-      form.values.username,
-      form.values.email,
-      form.values.password,
-      form.values.firstname,
-      form.values.lastname
-    );
+    form.validate();
 
-    if (data) {
-      saveUser(
-        data.id,
-        data.username,
-        data.email,
-        data.admin,
-        data.banned,
-        data.firstname,
-        data.lastname
+    if (form.isValid()) {
+      const data = await createUserApi(
+        form.values.username,
+        form.values.email,
+        form.values.password,
+        form.values.firstname,
+        form.values.lastname
       );
 
-      navigate("/");
-    }
+      if (data) {
+        saveUser(
+          data.id,
+          data.username,
+          data.email,
+          data.admin,
+          data.banned,
+          data.firstname,
+          data.lastname
+        );
 
-    form.reset();
+        navigate("/");
+        form.reset();
+      } else {
+        setServerResponse("Username already taken");
+      }
+    }
   };
 
   return (
@@ -140,6 +146,11 @@ export function SignUpScreen(props: PaperProps) {
               }
             />
           </Stack>
+          {serverResponse && (
+            <Text color="red" size="sm" align="center" mt={5}>
+              {serverResponse}
+            </Text>
+          )}
           <Button onClick={handleFormSubmit} fullWidth mt="xl" type="submit">
             Sign in
           </Button>
