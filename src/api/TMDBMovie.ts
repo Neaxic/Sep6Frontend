@@ -65,6 +65,26 @@ export const fetchHotMovies = async (page: number) => {
   }
 };
 
+export const deleteBookmark = async (userId: number, movieId: number) => {
+  if (!userId && !movieId) return;
+
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `${URLKAPS}/deleteBookmarkByUserOnMovie?user_id=${userId}&movie_id=${movieId}`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data;
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const fetchGenres = async () => {
   try {
     const response = await axios({

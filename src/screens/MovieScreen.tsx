@@ -15,7 +15,7 @@ import {
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import { ReviewByMovieId, fetchMovie } from "../api/TMDBMovie";
+import { ReviewByMovieId, fetchMovie, deleteBookmark } from "../api/TMDBMovie";
 import { IMovie, IReview } from "../misc/types";
 import { useUserContext } from "../contexts/UserContext";
 
@@ -25,7 +25,7 @@ export interface MovieScreenProps {
 
 export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
-  const { postBookmark, userBookmarks } = useUserContext();
+  const { postBookmark, userBookmarks, userData } = useUserContext();
   const [bookmarked, setBookmarked] = React.useState(false);
   const [movie, setMovie] = React.useState<IMovie>();
   const [reviews, setReviews] = React.useState<IReview[]>([]);
@@ -61,15 +61,29 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
     }
   }, [isbn]);
 
-  const registerBookmark = React.useCallback(async () => {
-    if (movie && movie.id && movie.title && movie.poster_path) {
-      const response = await postBookmark(
-        movie.id,
-        movie.title,
-        movie.poster_path
-      );
+  const deleteBookmarkById = React.useCallback(async () => {
+    if (movie && movie.id && bookmarked && userData?.userId) {
+      const response = await deleteBookmark(userData?.userId, +movie.id);
+      console.log(response);
       if (response) {
         setBookmarked(!bookmarked);
+      }
+    }
+  }, [bookmarked, movie, userData?.userId]);
+
+  const registerBookmark = React.useCallback(async () => {
+    if (movie && movie.id && movie.title && movie.poster_path) {
+      if (!bookmarked) {
+        const response = await postBookmark(
+          movie.id,
+          movie.title,
+          movie.poster_path
+        );
+        if (response) {
+          setBookmarked(!bookmarked);
+        }
+      } else {
+        deleteBookmarkById();
       }
     }
   }, [bookmarked, movie, postBookmark]);

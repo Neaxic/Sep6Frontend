@@ -74,6 +74,7 @@ export const UserProvider = (props: any) => {
       }
       fetchProfileData();
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn, userData]);
 
