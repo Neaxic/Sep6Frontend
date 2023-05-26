@@ -1,5 +1,4 @@
 import axios from "axios";
-import { IMovie } from "../misc/types";
 
 const URL = "https://api.themoviedb.org/3";
 const URLKAPS = "http://falkmikkelsen.dk:8081";
