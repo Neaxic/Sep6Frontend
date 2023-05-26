@@ -118,8 +118,11 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                         <MovieCard
                           movie={{
                             id: film.id,
-                            image: ``,
+                            image:
+                              "https://image.tmdb.org/t/p/w220_and_h330_face" +
+                              film.imageString,
                             title: film.title,
+                            height: "320",
                             description: ``,
                             genreID: 1, // Assuming genreID is required for your MovieCard component.
                           }}

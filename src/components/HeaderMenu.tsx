@@ -158,9 +158,7 @@ export function HeaderMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-  const handleHotMoviesHover = () => {
-    navigate("/MovieHot");
-  };
+
   const links = mockdata.map((item) => (
     <UnstyledButton
       className={classes.subLink}

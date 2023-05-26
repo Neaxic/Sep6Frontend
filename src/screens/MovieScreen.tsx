@@ -62,8 +62,12 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   }, [isbn]);
 
   const registerBookmark = React.useCallback(async () => {
-    if (movie && movie.id && movie.title) {
-      const response = await postBookmark(movie.id, movie.title);
+    if (movie && movie.id && movie.title && movie.poster_path) {
+      const response = await postBookmark(
+        movie.id,
+        movie.title,
+        movie.poster_path
+      );
       if (response) {
         setBookmarked(!bookmarked);
       }
@@ -71,7 +75,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   }, [bookmarked, movie, postBookmark]);
 
   const checkBookmarked = React.useCallback(() => {
-    if (userBookmarks && movie && movie.id) {
+    if (userBookmarks && movie && movie.id && userBookmarks.length > 0) {
       userBookmarks.forEach((bookmark) => {
         if (bookmark.id === movie.id) {
           setBookmarked(true);

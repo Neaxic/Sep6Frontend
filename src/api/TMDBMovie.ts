@@ -173,12 +173,13 @@ export const GetAllBookMarksByUserID = async (userID: number) => {
 export const CreateBookMarks = async (
   MovieID: number,
   UserID: number,
-  MovieTitle: string
+  title: string,
+  image: string
 ) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `${URLKAPS}/createBookmarkAndSaveBook?movie_id=${MovieID}&user_id=${UserID}&title=${MovieTitle}`,
+      url: `${URLKAPS}/createBookmarkAndSaveBook?movie_id=${MovieID}&user_id=${UserID}&title=${title}&imageString=${image}`,
       headers: {
         accept: "application/json",
       },

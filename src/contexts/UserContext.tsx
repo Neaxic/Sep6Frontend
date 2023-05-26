@@ -21,7 +21,11 @@ interface UserContextInterface {
   setRememberMe: (rememberMe: boolean) => void;
   logout: () => void;
   postReview: (comment: string, rating: number) => void;
-  postBookmark: (movieId: number, movieTitel: string) => Promise<boolean>;
+  postBookmark: (
+    movieId: number,
+    movieTitel: string,
+    image: string
+  ) => Promise<boolean>;
 }
 
 export const UserContext = React.createContext<UserContextInterface>({
@@ -103,9 +107,18 @@ export const UserProvider = (props: any) => {
     }
   };
 
-  const postBookmark = async (movieId: number, movieTitel: string) => {
+  const postBookmark = async (
+    movieId: number,
+    movieTitel: string,
+    image: string
+  ) => {
     if (movieId && userData?.userId) {
-      const data = await CreateBookMarks(movieId, userData?.userId, movieTitel);
+      const data = await CreateBookMarks(
+        movieId,
+        userData?.userId,
+        movieTitel,
+        image
+      );
       if (data) return true;
       else return false;
     }

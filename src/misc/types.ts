@@ -20,7 +20,7 @@ export interface IUser {
 export interface IUserBookmarks {
   id: number;
   title: string;
-  movieSrc: string;
+  imageString: string;
   date: string;
 }
 
