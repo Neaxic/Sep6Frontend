@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Anchor,
   Button,
@@ -21,6 +21,7 @@ export interface LoginScreenProps {
 }
 
 export const LoginScreen = ({ ...props }: LoginScreenProps) => {
+  const [serverResponse, setServerResponse] = useState<string>("");
   const { login } = useUserContext();
   const navigate = useNavigate();
 
@@ -41,12 +42,26 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
     form.validate();
 
     if (form.isValid()) {
-      login(form.values.username, form.values.password);
-      form.reset();
-      navigate("/");
-      await LoginUserApi(form.values.username, form.values.password);
+      const data = await LoginUserApi(
+        form.values.username,
+        form.values.password
+      );
+      if (data) {
+        login(
+          data.id,
+          data.username,
+          data.email,
+          data.admin,
+          data.banned,
+          data.firstname,
+          data.lastname
+        );
+        form.reset();
+        navigate("/");
+      } else {
+        setServerResponse("Invalid username or password");
+      }
     }
-    // TODO: Error handling
   };
 
   return (
@@ -90,6 +105,11 @@ export const LoginScreen = ({ ...props }: LoginScreenProps) => {
               "Password should include at least 6 characters"
             }
           />
+          {serverResponse && (
+            <Text color="red" mt="md">
+              {serverResponse}
+            </Text>
+          )}
           <Group position="apart" mt="lg">
             <Checkbox label="Remember me" />
             <Anchor component="button" size="sm">

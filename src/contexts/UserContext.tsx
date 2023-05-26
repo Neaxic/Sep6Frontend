@@ -1,16 +1,23 @@
 import * as React from "react";
 import { useState } from "react";
-import { IUserBookmarks, IUserReview } from "../misc/types";
+import { IUser, IUserBookmarks, IUserReview } from "../misc/types";
 import { useNavigate } from "react-router-dom";
+import { GetAllBookMarksByUserID } from "../api/TMDBMovie";
 
 interface UserContextInterface {
-  username: string;
-  email: string;
-  userRole: string;
+  userData: IUser | undefined;
   userBookmarks: IUserBookmarks[];
   userReviews: IUserReview[];
   loggedIn: boolean;
-  login: (email: string, password: string) => void;
+  login: (
+    userId: number,
+    username: string,
+    email: string,
+    isAdmin: boolean,
+    isBanned: boolean,
+    firstname: string,
+    lastname: string
+  ) => void;
   signup: (
     email: string,
     username: string,
@@ -23,9 +30,7 @@ interface UserContextInterface {
 }
 
 export const UserContext = React.createContext<UserContextInterface>({
-  username: "",
-  email: "",
-  userRole: "",
+  userData: undefined,
   userBookmarks: [],
   userReviews: [],
   loggedIn: false,
@@ -38,26 +43,38 @@ export const UserContext = React.createContext<UserContextInterface>({
 export const UserProvider = (props: any) => {
   const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [userRole, setUserRole] = useState<string>("");
+
+  const [userData, setUserData] = useState<IUser | undefined>(undefined);
   const [userReviews, setUserReviews] = useState<IUserReview[]>([]);
   const [userBookmarks, setUserBookmarks] = useState<IUserBookmarks[]>([]);
 
   React.useEffect(() => {
-    setUsername("");
-    setUserRole("Login");
-    setEmail("");
+    setUserData(undefined);
     setLoggedIn(false);
     setUserBookmarks([]);
     setUserReviews([]);
   }, []);
 
-  const login = async (username: string, password: string) => {
-    //API CALL
-    setUsername(username);
+  const login = async (
+    userId: number,
+    username: string,
+    email: string,
+    isAdmin: boolean,
+    isBanned: boolean,
+    firstname: string,
+    lastname: string
+  ) => {
+    setUserData({
+      userId: userId,
+      username: username,
+      email: email,
+      isAdmin: isAdmin,
+      isBanned: isBanned,
+      firstname: firstname,
+      lastname: lastname,
+    });
+
     setLoggedIn(true);
-    setUserRole("User");
   };
 
   const signup = async (
@@ -69,9 +86,16 @@ export const UserProvider = (props: any) => {
   ) => {
     //API CALL
     setLoggedIn(true);
-    setUsername(username);
-    setEmail(email);
-    setUserRole("User");
+  };
+
+  const fetchProfileData = async () => {
+    //API CALL
+    if (loggedIn) {
+      const data = await GetAllBookMarksByUserID(userData?.userId!);
+      if (data) {
+        setUserBookmarks(data);
+      }
+    }
   };
 
   const postReview = async (comment: string, rating: number) => {
@@ -80,9 +104,7 @@ export const UserProvider = (props: any) => {
 
   const logout = async () => {
     setLoggedIn(false);
-    setUsername("");
-    setEmail("");
-    setUserRole("");
+    setUserData(undefined);
     setUserBookmarks([]);
     setUserReviews([]);
     navigate("/");
@@ -92,9 +114,7 @@ export const UserProvider = (props: any) => {
     <UserContext.Provider
       value={{
         loggedIn,
-        username,
-        email,
-        userRole,
+        userData,
         userBookmarks,
         userReviews,
         login,

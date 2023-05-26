@@ -154,7 +154,7 @@ export function HeaderMenu() {
   const navigate = useNavigate();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();
   const { classes, theme } = useStyles();
-  const { loggedIn, username, email, logout } = useUserContext();
+  const { loggedIn, userData, logout } = useUserContext();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
@@ -288,7 +288,11 @@ export function HeaderMenu() {
               <Menu>
                 <Menu.Target>
                   <UnstyledButton>
-                    <UserButton name={username} email={email} image="a" />
+                    <UserButton
+                      name={userData?.username!}
+                      email={userData?.email!}
+                      image="a"
+                    />
                   </UnstyledButton>
                 </Menu.Target>
 

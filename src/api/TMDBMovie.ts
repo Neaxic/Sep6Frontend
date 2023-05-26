@@ -149,6 +149,7 @@ export const LoginUserApi = async (username: string, password: string) => {
     // Save the result
     const result = response.data;
     console.log(result);
+    return result;
     // Do something with the result here...
   } catch (e) {
     console.log(e);
@@ -168,7 +169,7 @@ export const GetAllBookMarksByUserID = async (userID: number) => {
 
     // Save the result
     const result = response.data;
-    console.log(result);
+    return result;
   } catch (e) {
     console.log(e);
   }

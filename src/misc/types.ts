@@ -7,6 +7,16 @@ export interface IUserReview {
   comment: string;
 }
 
+export interface IUser {
+  userId: number;
+  username: string;
+  email: string;
+  isAdmin: boolean;
+  isBanned: boolean;
+  firstname: string;
+  lastname: string;
+}
+
 export interface IUserBookmarks {
   movieID: string;
   movieTitle: string;

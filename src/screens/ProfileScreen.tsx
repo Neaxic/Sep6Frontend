@@ -8,7 +8,7 @@ export interface ProfileScreenProps {
 }
 
 export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
-  const { userReviews, username, userRole, userBookmarks } = useUserContext();
+  const { userReviews, userData, userBookmarks } = useUserContext();
 
   return (
     <>
@@ -20,8 +20,8 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                 {/* LEFT SIDE USER STUFF */}
                 <UserCardImage
                   avatar="{IMDB_Logo_2016}"
-                  name={username}
-                  role={"User role: " + userRole}
+                  name={userData?.username!}
+                  role={"User role: " + userData?.isAdmin ? "Admin" : "User"}
                   stats={[
                     { label: "Followers", value: "231" },
                     { label: "Following", value: "231" },
