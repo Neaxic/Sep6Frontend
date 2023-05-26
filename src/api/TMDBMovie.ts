@@ -154,8 +154,8 @@ export const LoginUserApi = async (username: string, password: string) => {
 export const GetAllBookMarksByUserID = async (userID: number) => {
   try {
     const response = await axios({
-      method: "POST",
-      url: `/getBookmarksByUserId?user_id=${userID}`,
+      method: "GET",
+      url: `${URLKAPS}/getBookmarksByUserId?user_id=${userID}`,
       headers: {
         accept: "application/json",
       },

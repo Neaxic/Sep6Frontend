@@ -41,11 +41,29 @@ export const UserProvider = (props: any) => {
   const [userBookmarks, setUserBookmarks] = useState<IUserBookmarks[]>([]);
 
   React.useEffect(() => {
-    setUserData(undefined);
-    setLoggedIn(false);
-    setUserBookmarks([]);
-    setUserReviews([]);
+    const stored = localStorage.getItem("userData");
+    if (stored && stored !== "undefined") {
+      //Burde check login her igen, men save pass i localstorage er ikke smart
+      //+ tokens er ikke implementeret endnu
+      setUserData(JSON.parse(stored));
+      setLoggedIn(true);
+      fetchProfileData();
+    } else {
+      setUserData(undefined);
+      setLoggedIn(false);
+      setUserBookmarks([]);
+      setUserReviews([]);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (loggedIn && userData) {
+      localStorage.setItem("userData", JSON.stringify(userData));
+      fetchProfileData();
+    }
+  }, [loggedIn, userData]);
 
   const saveUser = async (
     userId: number,
@@ -74,6 +92,7 @@ export const UserProvider = (props: any) => {
     if (loggedIn) {
       const BookmarkData = await GetAllBookMarksByUserID(userData?.userId!);
       if (BookmarkData) {
+        console.log(setUserBookmarks);
         setUserBookmarks(BookmarkData);
       }
       // const ReviewData = await GetAllR
@@ -85,6 +104,7 @@ export const UserProvider = (props: any) => {
   };
 
   const logout = async () => {
+    localStorage.setItem("userData", JSON.stringify(undefined));
     setLoggedIn(false);
     setUserData(undefined);
     setUserBookmarks([]);
