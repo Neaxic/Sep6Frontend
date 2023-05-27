@@ -6,7 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 import { useCallback, useEffect, useState } from "react";
 import { IUserBookmarks, IUserReview } from "../misc/types";
-import { GetAllBookMarksByUserID } from "../api/TMDBMovie";
+import { GetAllBookMarksByUserID, ReviewByUserId } from "../api/TMDBMovie";
 
 export interface ProfileScreenProps {
   // Props goes here
@@ -29,10 +29,10 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
         setPersonBookmarks(BookmarkData);
       }
 
-      // const reviewData = await
-      // if(reviewData){
-      //   setPersonReviews(reviewData)
-      // }
+      const reviewData = await ReviewByUserId(+id);
+      if (reviewData) {
+        setPersonReviews(reviewData);
+      }
     }
   }, [id]);
 

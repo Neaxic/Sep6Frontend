@@ -182,7 +182,7 @@ export const ReviewByUserId = async (UserID: number) => {
 
     // Save the result
     const result = response.data;
-    console.log(result);
+    return result;
   } catch (e) {
     console.log(e);
   }
