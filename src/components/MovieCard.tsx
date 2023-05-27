@@ -8,6 +8,8 @@ interface Movie {
   title: string;
   description: string;
   genreID: number;
+  style?: React.CSSProperties;
+  height?: string;
 }
 
 const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => (
@@ -17,10 +19,18 @@ const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => (
       padding="xl"
       component="a"
       target="_blank"
-      style={{ width: "300px", height: "520px" }} // Adjust these values to get your desired card size
+      style={{
+        width: movie.style && movie.style.width ? movie.style.width : "300px",
+        height:
+          movie.style && movie.style.height ? movie.style.height : "520px",
+      }} // Adjust these values to get your desired card size
     >
       <Card.Section>
-        <Image src={movie.image} height={430} alt={movie.title} />
+        <Image
+          src={movie.image}
+          height={movie.height ? movie.height : 400}
+          alt={movie.title}
+        />
       </Card.Section>
 
       <Text weight={500} size="lg" mt="md">

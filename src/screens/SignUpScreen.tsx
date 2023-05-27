@@ -15,15 +15,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../contexts/UserContext";
 import { createUserApi } from "../api/TMDBMovie";
 
-interface User {
-  username: string;
-  email: string;
-  firstname: string;
-  lastname: string;
-  role: string;
-  stats: { label: string; value: string }[];
-}
-
 export function SignUpScreen(props: PaperProps) {
   const [serverResponse, setServerResponse] = React.useState<string>("");
   const { saveUser } = useUserContext();

@@ -34,7 +34,6 @@ import {
   IconSun,
 } from "@tabler/icons-react";
 import SearchBar from "./SearchBar";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar } from "@mantine/core";
 import { useUserContext } from "../contexts/UserContext";
@@ -161,9 +160,7 @@ export function HeaderMenu() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-  const handleHotMoviesHover = () => {
-    navigate("/MovieHot");
-  };
+
   const links = mockdata.map((item) => (
     <UnstyledButton
       className={classes.subLink}
@@ -186,7 +183,6 @@ export function HeaderMenu() {
       </Group>
     </UnstyledButton>
   ));
-  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <Box>

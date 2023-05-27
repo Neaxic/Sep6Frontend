@@ -2,8 +2,32 @@ import { Link } from "react-router-dom";
 import { CardsCarousel } from "../components/CardsCarousel";
 import { HeroText } from "../components/HeroText";
 import { Button, Flex, Text } from "@mantine/core";
+import React from "react";
+import { MovieData } from "../api/IMovieData";
+import { IMovie, ITopReviews } from "../misc/types";
+import { GetOurTopRatedMovies, fetchHotMovies } from "../api/TMDBMovie";
 
 export const HomePage = () => {
+  const [highestRated, setHeighestRated] = React.useState<ITopReviews[]>([]);
+  const [hotMovies, setHotMovies] = React.useState<IMovie[]>([]);
+  const [newMovies, setNewMovies] = React.useState<ITopReviews[]>([]);
+
+  const fetchMovies = React.useCallback(async () => {
+    setHotMovies(await fetchHotMovies(1));
+
+    const response = await GetOurTopRatedMovies();
+    if (response) {
+      setHeighestRated(response);
+    }
+    console.log(response);
+  }, []);
+
+  React.useEffect(() => {
+    fetchMovies();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div>
       <div style={{ marginTop: "128px" }}>
@@ -20,9 +44,9 @@ export const HomePage = () => {
           size={32}
           fw={900}
         >
-          Highest rated
+          Our highest rated
         </Text>
-        <CardsCarousel></CardsCarousel>
+        <CardsCarousel movies={highestRated}></CardsCarousel>
       </div>
       <div style={{ marginTop: "64px" }}>
         <Text
@@ -35,9 +59,9 @@ export const HomePage = () => {
           size={32}
           fw={900}
         >
-          Just landed
+          Hot right now
         </Text>
-        <CardsCarousel></CardsCarousel>
+        <CardsCarousel movies={hotMovies}></CardsCarousel>
       </div>
       <div style={{ marginTop: "64px" }}>
         <Text
@@ -52,7 +76,7 @@ export const HomePage = () => {
         >
           Coming soon
         </Text>
-        <CardsCarousel></CardsCarousel>
+        {/* <CardsCarousel></CardsCarousel> */}
       </div>
       <Flex
         mt={128}
@@ -83,3 +107,8 @@ export const HomePage = () => {
     </div>
   );
 };
+function fetchTopratedMovies(
+  page: any
+): MovieData[] | PromiseLike<MovieData[]> {
+  throw new Error("Function not implemented.");
+}

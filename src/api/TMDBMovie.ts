@@ -1,5 +1,4 @@
 import axios from "axios";
-import { IMovie } from "../misc/types";
 
 const URL = "https://api.themoviedb.org/3";
 const URLKAPS = "http://falkmikkelsen.dk:8081";
@@ -60,6 +59,26 @@ export const fetchHotMovies = async (page: number) => {
     });
 
     const selectedData = response.data.results;
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const deleteBookmark = async (userId: number, movieId: number) => {
+  if (!userId && !movieId) return;
+
+  try {
+    const response = await axios({
+      method: "POST",
+      url: `${URLKAPS}/deleteBookmarkByUserOnMovie?user_id=${userId}&movie_id=${movieId}`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data;
     return selectedData;
   } catch (e) {
     console.log(e);
@@ -192,12 +211,13 @@ export const GetAllBookMarksByUserID = async (userID: number) => {
 export const CreateBookMarks = async (
   MovieID: number,
   UserID: number,
-  MovieTitle: string
+  title: string,
+  image: string
 ) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `${URLKAPS}/createBookmarkAndSaveBook?movie_id=${MovieID}&user_id=${UserID}&title=${MovieTitle}`,
+      url: `${URLKAPS}/createBookmarkAndSaveBook?movie_id=${MovieID}&user_id=${UserID}&title=${title}&imageString=${image}`,
       headers: {
         accept: "application/json",
       },
@@ -225,6 +245,24 @@ export const GetMoviesFromDBById = async (MovieID: number) => {
     // Save the result
     const result = response.data;
     console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const GetOurTopRatedMovies = async () => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URLKAPS}/getTopRatedMovies`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    return result;
   } catch (e) {
     console.log(e);
   }
@@ -288,7 +326,7 @@ export const ReviewByMovieId = async (MovieID: number) => {
 
     // Save the result
     const result = response.data;
-    console.log(result);
+    return result;
   } catch (e) {
     console.log(e);
   }
