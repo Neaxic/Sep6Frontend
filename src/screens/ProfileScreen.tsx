@@ -124,7 +124,8 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                           </Card>
                         </Carousel.Slide>
                       ))
-                    : userReviews.map((film, index) => (
+                    : userReviews &&
+                      userReviews.map((film, index) => (
                         <Carousel.Slide>
                           <Card
                             key={index}
