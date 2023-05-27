@@ -229,15 +229,19 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
                 </form>
               </div>
 
-              {reviews.map((review, index) => (
-                <Comment
-                  key={index}
-                  postedAt={review.date}
-                  rating={review.rating}
-                  body={review.comment}
-                  author={{ name: review.user, image: "lol" }}
-                />
-              ))}
+              {reviews && (
+                <>
+                  {reviews.map((review, index) => (
+                    <Comment
+                      key={index}
+                      postedAt={review.date}
+                      rating={review.rating}
+                      body={review.comment}
+                      author={{ name: review.user, image: "lol" }}
+                    />
+                  ))}
+                </>
+              )}
             </Flex>
           </div>
         </>
