@@ -16,9 +16,9 @@ import MovieCover from "../assets/movieCover.jpg";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import { CreateBookMarks, fetchMovie } from "../api/TMDBMovie";
+import { CreateBookMarks, fetchMovie, CreateReview } from "../api/TMDBMovie";
 import { IMovie } from "../misc/types";
-import { useUserContext } from "../contexts/UserContext";
+import { UserContext, useUserContext } from "../contexts/UserContext";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -28,6 +28,8 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
   const { postBookmark, userBookmarks } = useUserContext();
   const [bookmarked, setBookmarked] = React.useState(false);
+  const { postReview, userReviews } = useUserContext();
+  const [reviewed, setUserReviews] = React.useState(false);
   const [movie, setMovie] = React.useState<IMovie>();
   const form = useForm({
     initialValues: {
@@ -42,6 +44,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   });
 
   const handleFormSubmit = () => {
+    createReviews();
     console.log(form.values); // Log the form object
     form.reset();
   };
@@ -52,6 +55,18 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
       setMovie(movieOBJ);
     }
   }, [isbn]);
+
+  const createReviews = React.useCallback(async () => {
+    if (movie && movie.id && movie.title && movie.poster_path) {
+      const res = await postReview(
+        form.values.comment,
+        form.values.rating,
+        movie.id,
+        movie.title,
+        movie.poster_path
+      );
+    }
+  }, [form.values.comment, form.values.rating, movie, postReview]);
 
   const registerBookmark = React.useCallback(async () => {
     if (movie && movie.id && movie.title) {
@@ -233,5 +248,8 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   );
 };
 function async(arg0: Promise<any>): any {
+  throw new Error("Function not implemented.");
+}
+function postReview(id: number, title: string) {
   throw new Error("Function not implemented.");
 }

@@ -40,6 +40,7 @@ import { Avatar } from "@mantine/core";
 import { useUserContext } from "../contexts/UserContext";
 import { UserButton } from "./UserButton";
 import GenreListPopover from "./GenreListPopover";
+import { SearchMovieByName } from "../api/TMDBMovie";
 const useStyles = createStyles((theme) => ({
   link: {
     display: "flex",
@@ -148,8 +149,13 @@ const mockdata = [
 ];
 
 export function HeaderMenu() {
-  const handleSearch = (query: string) => {
-    console.log(query);
+  const handleSearch = async (query: string) => {
+    const movieData: IMovieData = await SearchMovieByName(query);
+    console.log(movieData);
+  
+    if (movieData && movieData.id) {
+      navigate(`/movie/${movieData.id}`);
+
   };
   const navigate = useNavigate();
   const { colorScheme, toggleColorScheme } = useMantineColorScheme();

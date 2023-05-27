@@ -51,10 +51,9 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                     { maxWidth: "sm", slideSize: "100%", slideGap: 0 },
                   ]}
                 >
-                  {userReviews.map((film, index) => (
-                    <Carousel.Slide>
+                  {userReviews.map((review, index) => (
+                    <Carousel.Slide key={index}>
                       <Card
-                        key={index}
                         shadow="sm"
                         padding="md"
                         style={{
@@ -72,26 +71,26 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                             borderRadius: "50%",
                             overflow: "hidden",
                           }}
-                        >
-                          <img
-                            src={film.movieSrc}
-                            alt={film.movieTitle}
-                            style={{
-                              width: "100%",
-                              height: "100%",
-                              objectFit: "cover",
-                              objectPosition: "center",
-                              borderRadius: "50%",
-                            }}
-                          />
-                        </div>
-                        <Text variant="h3">{film.movieTitle}</Text>
-                        {film.comment && <Text>{film.comment}</Text>}
+                        ></div>
+                        <Text align="left" variant="h1" size={16} weight={700}>
+                          {review.movieID} // Display movie title below image
+                        </Text>
                         <Text
-                          variant="h5"
-                          color="gray"
-                        >{`Rating: ${film.rating}`}</Text>
-                        <Button size="sm">Rediger</Button>
+                          align="left"
+                          variant="body"
+                          size={12}
+                          weight={400}
+                        >
+                          {review.comment}
+                        </Text>
+                        <Text
+                          align="right"
+                          variant="body"
+                          size={12}
+                          weight={400}
+                        >
+                          {review.rating}
+                        </Text>
                       </Card>
                     </Carousel.Slide>
                   ))}
