@@ -2,7 +2,12 @@ import * as React from "react";
 import { useState } from "react";
 import { IUser, IUserBookmarks, IUserReview } from "../misc/types";
 import { useNavigate } from "react-router-dom";
-import { CreateBookMarks, GetAllBookMarksByUserID } from "../api/TMDBMovie";
+import {
+  CreateBookMarks,
+  GetAllBookMarksByUserID,
+  CreateReview,
+  ReviewByUserId,
+} from "../api/TMDBMovie";
 
 interface UserContextInterface {
   userData: IUser | undefined;
@@ -20,7 +25,14 @@ interface UserContextInterface {
   ) => void;
   setRememberMe: (rememberMe: boolean) => void;
   logout: () => void;
-  postReview: (comment: string, rating: number) => void;
+  postReview: (
+    comment: string,
+    rating: number,
+    movieId: number,
+    movieTitle: string,
+    movieSrc: string
+  ) => Promise<boolean>;
+
   postBookmark: (
     movieId: number,
     movieTitel: string,
@@ -36,7 +48,7 @@ export const UserContext = React.createContext<UserContextInterface>({
   saveUser: () => {},
   setRememberMe: () => {},
   logout: () => {},
-  postReview: () => {},
+  postReview: async () => false,
   postBookmark: async () => false,
 });
 
@@ -103,8 +115,16 @@ export const UserProvider = (props: any) => {
   const fetchProfileData = async () => {
     if (loggedIn) {
       const BookmarkData = await GetAllBookMarksByUserID(userData?.userId!);
+      const ReviewData = (await ReviewByUserId(
+        userData?.userId!
+      )) as unknown as IUserReview[];
       if (BookmarkData) {
         setUserBookmarks(BookmarkData);
+        setUserReviews(ReviewData);
+        console.log(
+          "Dette er en console log for at se hvad der kommer ud ",
+          ReviewData
+        );
       }
     }
   };
@@ -127,8 +147,26 @@ export const UserProvider = (props: any) => {
     return false;
   };
 
-  const postReview = async (comment: string, rating: number) => {
-    //API CALL
+  const postReview = async (
+    comment: string,
+    rating: number,
+    movieId: number,
+    movieTitle: string,
+    movieSrc: string
+  ): Promise<boolean> => {
+    if (movieId && userData?.userId) {
+      const data = await CreateReview(
+        movieId,
+        userData?.userId,
+        comment,
+        rating,
+        movieTitle,
+        movieSrc
+      );
+      console.log(data);
+      return Boolean(data);
+    }
+    return false;
   };
 
   const logout = async () => {

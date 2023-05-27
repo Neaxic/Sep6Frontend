@@ -169,6 +169,25 @@ export const LoginUserApi = async (username: string, password: string) => {
   }
 };
 
+/*GetReviewForMovie*/
+export const ReviewByUserId = async (UserID: number) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URLKAPS}/getReviewByUserId?user_id=${UserID}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 /*GetAllBookMarks By UserID*/
 export const GetAllBookMarksByUserID = async (userID: number) => {
   try {
@@ -269,16 +288,18 @@ export const CreateMovieForDB = async (MovieID: number, MovieTitle: string) => {
 };
 
 /*CreateReviewForMovie*/
-export const createReview = async (
+export const CreateReview = async (
   MovieID: number,
   UserID: number,
   Comment: string,
-  rating: number
+  rating: number,
+  movieTitle: string,
+  movieSrc: string
 ) => {
   try {
     const response = await axios({
       method: "POST",
-      url: `${URLKAPS}/createReview?comment=${Comment}&rating=${rating}&user_id=${UserID}&movie_id=${MovieID}`,
+      url: `${URLKAPS}/createReview?comment=${Comment}&rating=${rating}&user_id=${UserID}&movie_id=${MovieID}&title=${movieTitle}&image=${movieSrc}`,
       headers: {
         accept: "application/json",
       },
@@ -306,6 +327,25 @@ export const ReviewByMovieId = async (MovieID: number) => {
     // Save the result
     const result = response.data;
     return result;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+/*GetReviewForMovie*/
+export const SearchMovieByName = async (search: string) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URLKAPS}/getMoviesFromSearch?searchString=${search}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    console.log(result);
   } catch (e) {
     console.log(e);
   }

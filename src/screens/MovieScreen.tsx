@@ -15,9 +15,9 @@ import {
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import { ReviewByMovieId, fetchMovie, deleteBookmark } from "../api/TMDBMovie";
+import { UserContext, useUserContext } from "../contexts/UserContext";
+import { fetchMovie, ReviewByMovieId, deleteBookmark } from "../api/TMDBMovie";
 import { IMovie, IReview } from "../misc/types";
-import { useUserContext } from "../contexts/UserContext";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -27,6 +27,8 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
   const { postBookmark, userBookmarks, userData } = useUserContext();
   const [bookmarked, setBookmarked] = React.useState(false);
+  const { postReview, userReviews } = useUserContext();
+  const [reviewed, setUserReviews] = React.useState(false);
   const [movie, setMovie] = React.useState<IMovie>();
   const [reviews, setReviews] = React.useState<IReview[]>([]);
   const form = useForm({
@@ -46,6 +48,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
     if (form.isValid()) {
       console.log("valid");
       //Smid det til apien
+      createReviews();
 
       form.reset();
     }
@@ -60,6 +63,18 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
       setReviews(reviews);
     }
   }, [isbn]);
+
+  const createReviews = React.useCallback(async () => {
+    if (movie && movie.id && movie.title && movie.poster_path) {
+      const res = await postReview(
+        form.values.comment,
+        form.values.rating,
+        movie.id,
+        movie.title,
+        movie.poster_path
+      );
+    }
+  }, [form.values.comment, form.values.rating, movie, postReview]);
 
   const deleteBookmarkById = React.useCallback(async () => {
     if (movie && movie.id && bookmarked && userData?.userId) {
