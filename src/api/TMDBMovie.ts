@@ -231,6 +231,24 @@ export const GetMoviesFromDBById = async (MovieID: number) => {
   }
 };
 
+export const GetOurTopRatedMovies = async () => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URLKAPS}/getTopRatedMovies`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    // Save the result
+    const result = response.data;
+    return result;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 /*CreateMovieForDB*/
 export const CreateMovieForDB = async (MovieID: number, MovieTitle: string) => {
   try {

@@ -1,6 +1,7 @@
 import { Carousel } from "@mantine/carousel";
-import { createStyles, Paper, Text, Title, Button, rem } from "@mantine/core";
+import { createStyles, Paper, Title, Button, rem } from "@mantine/core";
 import { Link } from "react-router-dom";
+import { IMovie, ITopReviews } from "../misc/types";
 
 const useStyles = createStyles((theme) => ({
   card: {
@@ -31,13 +32,13 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface CardProps {
-  image: string;
-  title: string;
-  category: string;
-  isbn: string;
+  id?: string;
+  title?: string;
+  imageString?: string;
+  rating?: number;
 }
 
-function Card({ image, title, category, isbn }: CardProps) {
+function Card({ id, title, imageString, rating }: CardProps) {
   const { classes } = useStyles();
 
   return (
@@ -45,80 +46,48 @@ function Card({ image, title, category, isbn }: CardProps) {
       shadow="md"
       p="xl"
       radius="md"
-      sx={{ backgroundImage: `url(${image})` }}
+      sx={{
+        backgroundOpacity: 0.7,
+        backgroundImage: `url(https://image.tmdb.org/t/p/w220_and_h330_face/${imageString})`,
+      }}
       className={classes.card}
     >
       <div>
-        <Text className={classes.category} size="xs">
-          {category}
-        </Text>
+        <Title order={3} className={classes.title}>
+          {rating}
+        </Title>
         <Title order={3} className={classes.title}>
           {title}
         </Title>
       </div>
-      <Button
-        variant="white"
-        color="dark"
-        component={Link}
-        to={`movie/${isbn}`}
-      >
-        Read article
+      <Button variant="white" color="dark" component={Link} to={`movie/${id}`}>
+        View movie
       </Button>
     </Paper>
   );
 }
 
-const data = [
-  {
-    image:
-      "https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
-    title: "Best forests to visit in North America",
-    isbn: "502356",
-    category: "nature",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1559494007-9f5847c49d94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
-    title: "Hawaii beaches review: better than you think",
-    isbn: "502356",
-    category: "beach",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1608481337062-4093bf3ed404?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
-    title: "Mountains at night: 12 best locations to enjoy the view",
-    isbn: "97821",
-    category: "nature",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1507272931001-fc06c17e4f43?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
-    title: "Aurora in Norway: when to visit for best experience",
-    isbn: "97821",
-    category: "nature",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1510798831971-661eb04b3739?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
-    title: "Best places to visit this winter",
-    isbn: "97821",
-    category: "tourism",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1582721478779-0ae163c05a60?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&q=80",
-    title: "Active volcanos reviews: travel at your own risk",
-    isbn: "97821",
-    category: "nature",
-  },
-];
+interface CardsCarouselProps {
+  movies?: ITopReviews[] | IMovie[];
+}
 
-export function CardsCarousel() {
-  const slides = data.map((item) => (
-    <Carousel.Slide key={item.title}>
-      <Card {...item} />
-    </Carousel.Slide>
-  ));
+export const CardsCarousel = ({ movies, ...props }: CardsCarouselProps) => {
+  const isMovie = (item: ITopReviews | IMovie): item is ITopReviews => {
+    return "imageString" in item;
+  };
+
+  const slides =
+    movies &&
+    movies.map((item) => (
+      <Carousel.Slide key={item.title}>
+        <Card
+          id={"" + item.id}
+          title={item.title}
+          imageString={isMovie(item) ? item.imageString : item.poster_path}
+          rating={item.rating}
+        />
+      </Carousel.Slide>
+    ));
 
   return (
     <Carousel
@@ -131,4 +100,4 @@ export function CardsCarousel() {
       {slides}
     </Carousel>
   );
-}
+};

@@ -17,6 +17,13 @@ export interface IUser {
   lastname: string;
 }
 
+export interface ITopReviews {
+  id: number;
+  title: string;
+  imageString: string;
+  rating: number;
+}
+
 export interface IUserBookmarks {
   id: number;
   title: string;
