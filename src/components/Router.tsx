@@ -21,6 +21,7 @@ export const Router = () => {
         <Route path="login" element={<LoginScreen />} />
         <Route path="signUp" element={<SignUpScreen />} />
         <Route path="profile" element={<ProfileScreen />} />
+        <Route path="profile/:id" element={<ProfileScreen />} />
         <Route path="api" element={<Apitest />} />
         <Route path="Browser/*" element={<BrowserScreen />} />
         <Route path="*" element={<ErrorScreen />} />
