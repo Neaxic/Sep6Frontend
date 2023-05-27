@@ -332,7 +332,7 @@ export const ReviewByMovieId = async (MovieID: number) => {
   }
 };
 
-/*GetReviewForMovie*/
+/*SearchForMovie*/
 export const SearchMovieByName = async (search: string) => {
   try {
     const response = await axios({
@@ -343,10 +343,10 @@ export const SearchMovieByName = async (search: string) => {
       },
     });
 
-    // Save the result
     const result = response.data;
-    console.log(result);
+    return result;
   } catch (e) {
     console.log(e);
+    return []; // It's good practice to return an empty array in case of an error
   }
 };
