@@ -47,7 +47,7 @@ function Card({ id, title, imageString, rating }: CardProps) {
       p="xl"
       radius="md"
       sx={{
-        backgroundOpacity: 0.7,
+        backgroundBlendMode: "color-dodge",
         backgroundImage: `url(https://image.tmdb.org/t/p/w220_and_h330_face/${imageString})`,
       }}
       className={classes.card}

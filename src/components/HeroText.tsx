@@ -7,6 +7,7 @@ import {
   rem,
 } from "@mantine/core";
 import { Link } from "react-router-dom";
+import { useUserContext } from "../contexts/UserContext";
 
 const useStyles = createStyles((theme) => ({
   wrapper: {
@@ -99,6 +100,7 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export function HeroText() {
+  const { loggedIn } = useUserContext();
   const { classes } = useStyles();
 
   return (
@@ -114,9 +116,10 @@ export function HeroText() {
 
         <Container p={0} size={600}>
           <Text size="lg" color="dimmed" className={classes.description}>
-            Build more reliable software with AI companion. AI is also trained
-            to detect lazy developers who do nothing and just complain on
-            Twitter.
+            We have the biggest library of movies in the world. You can find
+            anything you want here. We have movies from all genres, all
+            countries, all languages. We have movies from the past, from the
+            present and from the future. We have movies that you have never
           </Text>
         </Container>
 
@@ -129,16 +132,27 @@ export function HeroText() {
             component={Link}
             to={"/movies"}
           >
-            View all movies
+            View the hottest movies
           </Button>
-          <Button
-            className={classes.control}
-            size="lg"
-            component={Link}
-            to={"/signup"}
-          >
-            Register account
-          </Button>
+          {loggedIn ? (
+            <Button
+              className={classes.control}
+              size="lg"
+              component={Link}
+              to={"/profile"}
+            >
+              Goto account
+            </Button>
+          ) : (
+            <Button
+              className={classes.control}
+              size="lg"
+              component={Link}
+              to={"/signup"}
+            >
+              Register account
+            </Button>
+          )}
         </div>
       </div>
     </Container>

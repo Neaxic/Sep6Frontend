@@ -10,7 +10,6 @@ import { GetOurTopRatedMovies, fetchHotMovies } from "../api/TMDBMovie";
 export const HomePage = () => {
   const [highestRated, setHeighestRated] = React.useState<ITopReviews[]>([]);
   const [hotMovies, setHotMovies] = React.useState<IMovie[]>([]);
-  const [newMovies, setNewMovies] = React.useState<ITopReviews[]>([]);
 
   const fetchMovies = React.useCallback(async () => {
     setHotMovies(await fetchHotMovies(1));
@@ -48,7 +47,7 @@ export const HomePage = () => {
         </Text>
         <CardsCarousel movies={highestRated}></CardsCarousel>
       </div>
-      <div style={{ marginTop: "64px" }}>
+      <div style={{ marginTop: "64px", marginBottom: "128px" }}>
         <Text
           variant="gradient"
           gradient={{ from: "indigo", to: "cyan", deg: 45 }}
@@ -63,52 +62,6 @@ export const HomePage = () => {
         </Text>
         <CardsCarousel movies={hotMovies}></CardsCarousel>
       </div>
-      <div style={{ marginTop: "64px" }}>
-        <Text
-          variant="gradient"
-          gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-          sx={{
-            fontFamily: "Greycliff CF, sans-serif",
-            textTransform: "uppercase",
-          }}
-          size={32}
-          fw={900}
-        >
-          Coming soon
-        </Text>
-        {/* <CardsCarousel></CardsCarousel> */}
-      </div>
-      <Flex
-        mt={128}
-        mb={128}
-        mih={50}
-        gap="md"
-        justify="center"
-        align="center"
-        direction="column"
-        wrap="wrap"
-      >
-        <Text
-          variant="gradient"
-          gradient={{ from: "indigo", to: "cyan", deg: 45 }}
-          sx={{
-            fontFamily: "Greycliff CF, sans-serif",
-            textTransform: "uppercase",
-          }}
-          size={32}
-          fw={900}
-        >
-          Or just view at all movies
-        </Text>
-        <Button component={Link} to={"/movies"}>
-          Here
-        </Button>
-      </Flex>
     </div>
   );
 };
-function fetchTopratedMovies(
-  page: any
-): MovieData[] | PromiseLike<MovieData[]> {
-  throw new Error("Function not implemented.");
-}
