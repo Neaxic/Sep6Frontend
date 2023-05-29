@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Input } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { SearchMovieByName } from "../api/TMDBMovie";
+import { Link } from "react-router-dom";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -17,14 +18,16 @@ interface IMovieData {
 const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   const navigate = useNavigate();
   const [query, setQuery] = useState("");
+  const [movieData, setMovieData] = useState<IMovieData[]>([]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSearch(query);
 
-    const movieData: IMovieData[] = await SearchMovieByName(query);
-    if (movieData.length > 0) {
-      navigate(`/movie/${movieData[0].id}`);
+    const data: IMovieData[] = await SearchMovieByName(query);
+    setMovieData(data);
+    if (data.length === 1) {
+      navigate(`/movie/${data[0].id}`);
     }
   };
 
@@ -35,6 +38,15 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         value={query}
         onChange={(event) => setQuery(event.currentTarget.value)}
       />
+      {movieData.length > 1 && (
+        <div>
+          {movieData.map((movie) => (
+            <Link key={movie.id} to={`/movie/${movie.id}`}>
+              {movie.title}
+            </Link>
+          ))}
+        </div>
+      )}
     </form>
   );
 };
