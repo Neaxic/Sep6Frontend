@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { MovieData } from "../api/IMovieData";
-import MovieCard from "../components/MovieCard"; // Import MovieCard component
+import MovieCard from "../components/MovieCard";
 import { useMovieContext } from "../contexts/MovieContext";
 import { fetchGenreMovies } from "../api/TMDBMovie";
 
@@ -50,7 +50,7 @@ export const BrowserScreen = () => {
               image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
               title: movie.original_title,
               description: `${movie.popularity}`,
-              genreID: 1, // converting popularity to string as description expects a string.
+              genreID: 1,
             }}
           />
         ))}

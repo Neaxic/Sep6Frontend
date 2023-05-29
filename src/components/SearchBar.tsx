@@ -3,6 +3,7 @@ import { Input } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { SearchMovieByName } from "../api/TMDBMovie";
 import { Link } from "react-router-dom";
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -32,7 +33,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onChange={handleSubmit}>
       <Input
         placeholder="Search..."
         value={query}
