@@ -23,7 +23,7 @@ const MovieCard: React.FC<{ movie: Movie }> = ({ movie }) => (
         width: movie.style && movie.style.width ? movie.style.width : "300px",
         height:
           movie.style && movie.style.height ? movie.style.height : "520px",
-      }} // Adjust these values to get your desired card size
+      }}
     >
       <Card.Section>
         <Image

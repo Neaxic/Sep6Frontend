@@ -1,6 +1,6 @@
 import * as React from "react";
-import { fetchMovies } from "../api/Jokes"; // change the path to your actual Movies api class
-import { MovieData } from "../api/IMovieData"; // adjust the path according to your file structure
+import { fetchMovies } from "../api/Jokes";
+import { MovieData } from "../api/IMovieData";
 
 export interface ApitestProps {
   // Props goes here

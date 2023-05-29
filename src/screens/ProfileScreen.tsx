@@ -202,7 +202,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                                 title: film.title,
                                 height: "320",
                                 description: ``,
-                                genreID: 1, // Assuming genreID is required for your MovieCard component.
+                                genreID: 1,
                               }}
                             />
                           </UnstyledButton>
@@ -223,7 +223,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                                 title: film.title,
                                 height: "320",
                                 description: ``,
-                                genreID: 1, // Assuming genreID is required for your MovieCard component.
+                                genreID: 1,
                               }}
                             />
                           </UnstyledButton>

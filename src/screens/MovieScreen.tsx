@@ -115,8 +115,6 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
 
   React.useEffect(() => {
     featchingData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
