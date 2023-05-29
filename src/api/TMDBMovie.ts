@@ -122,7 +122,7 @@ export const fetchGenreMovies = async (genreId: number) => {
     console.log(e);
   }
 };
-/*Create User*/
+
 /*Create User*/
 export const createUserApi = async (
   username: string,
@@ -148,7 +148,6 @@ export const createUserApi = async (
   }
 };
 
-/*Login with user With Username And password*/
 export const LoginUserApi = async (username: string, password: string) => {
   try {
     const response = await axios({
@@ -159,11 +158,8 @@ export const LoginUserApi = async (username: string, password: string) => {
       },
     });
 
-    // Save the result
     const result = response.data;
-    console.log(result);
     return result;
-    // Do something with the result here...
   } catch (e) {
     console.log(e);
   }
@@ -180,7 +176,6 @@ export const ReviewByUserId = async (UserID: number) => {
       },
     });
 
-    // Save the result
     const result = response.data;
     return result;
   } catch (e) {
@@ -199,7 +194,6 @@ export const GetAllBookMarksByUserID = async (userID: number) => {
       },
     });
 
-    // Save the result
     const result = response.data;
     return result;
   } catch (e) {
@@ -223,7 +217,6 @@ export const CreateBookMarks = async (
       },
     });
 
-    // Save the result
     const result = response.data;
     return result;
   } catch (e) {
@@ -242,7 +235,6 @@ export const GetMoviesFromDBById = async (MovieID: number) => {
       },
     });
 
-    // Save the result
     const result = response.data;
     console.log(result);
   } catch (e) {
@@ -260,7 +252,6 @@ export const GetOurTopRatedMovies = async () => {
       },
     });
 
-    // Save the result
     const result = response.data;
     return result;
   } catch (e) {
@@ -279,7 +270,6 @@ export const CreateMovieForDB = async (MovieID: number, MovieTitle: string) => {
       },
     });
 
-    // Save the result
     const result = response.data;
     console.log(result);
   } catch (e) {
@@ -305,7 +295,6 @@ export const CreateReview = async (
       },
     });
 
-    // Save the result
     const result = response.data;
     console.log(result);
   } catch (e) {
@@ -324,7 +313,6 @@ export const ReviewByMovieId = async (MovieID: number) => {
       },
     });
 
-    // Save the result
     const result = response.data;
     return result;
   } catch (e) {
@@ -347,6 +335,24 @@ export const SearchMovieByName = async (search: string) => {
     return result;
   } catch (e) {
     console.log(e);
-    return []; // It's good practice to return an empty array in case of an error
+    return [];
+  }
+};
+
+export const getUserByUserId = async (userid: number) => {
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URLKAPS}/getUserWithId?id=${userid}`,
+      headers: {
+        accept: "application/json",
+      },
+    });
+
+    const result = response.data;
+    return result;
+  } catch (e) {
+    console.log(e);
+    return [];
   }
 };

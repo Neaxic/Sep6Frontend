@@ -5,8 +5,12 @@ import { UserCardImage } from "../components/UserCardImage";
 import { Link, useParams } from "react-router-dom";
 import MovieCard from "../components/MovieCard";
 import { useCallback, useEffect, useState } from "react";
-import { IUserBookmarks, IUserReview } from "../misc/types";
-import { GetAllBookMarksByUserID, ReviewByUserId } from "../api/TMDBMovie";
+import { IUser, IUserBookmarks, IUserReview } from "../misc/types";
+import {
+  GetAllBookMarksByUserID,
+  ReviewByUserId,
+  getUserByUserId,
+} from "../api/TMDBMovie";
 
 export interface ProfileScreenProps {
   // Props goes here
@@ -18,6 +22,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
 
   const [personBookmarks, setPersonBookmarks] = useState<IUserBookmarks[]>([]);
   const [personReviews, setPersonReviews] = useState<IUserReview[]>([]);
+  const [personData, setPersonData] = useState<IUser>();
 
   //Persondata = en anden end en selv - ie. ikke userData.
   const fetchPersonData = useCallback(async () => {
@@ -29,6 +34,11 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
         setPersonBookmarks(BookmarkData);
       }
 
+      const userData = await getUserByUserId(+id);
+      if (userData) {
+        setPersonData(userData);
+      }
+
       const reviewData = await ReviewByUserId(+id);
       if (reviewData) {
         setPersonReviews(reviewData);
@@ -38,7 +48,9 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
 
   useEffect(() => {
     fetchPersonData();
-  }, [fetchPersonData, id]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   return (
     <>
@@ -50,14 +62,35 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                 {/* LEFT SIDE USER STUFF */}
                 <UserCardImage
                   avatar="{IMDB_Logo_2016}"
-                  name={userData?.username!}
-                  role={userData?.isAdmin ? "Admin" : "User"}
+                  name={
+                    !id && !personData
+                      ? userData?.username!
+                      : personData?.username!
+                  }
+                  role={
+                    !id && !personData
+                      ? userData?.isAdmin
+                        ? "Admin"
+                        : "User"
+                      : personData?.isAdmin
+                      ? "Admin"
+                      : "User"
+                  }
                   stats={[
-                    { label: "Followers", value: "231" },
-                    { label: "Following", value: "231" },
-                    { label: "Reviews", value: "2.31k" },
-                    { label: "Bookmarks", value: "22" },
-                    { label: "Join date", value: "12/12/12" },
+                    {
+                      label: "Reviews",
+                      value:
+                        !id && !personData
+                          ? userReviews.length.toString()
+                          : personReviews.length.toString(),
+                    },
+                    {
+                      label: "Bookmarks",
+                      value:
+                        !id && !personData
+                          ? userBookmarks.length.toString()
+                          : personBookmarks.length.toString(),
+                    },
                   ]}
                 />
               </Flex>
@@ -66,7 +99,11 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
               {/* RIGHT SIDE STATS */}
               <div>
                 <Text align="left" variant="h1" size={24} weight={900}>
-                  Movie Reviews
+                  {!id && !personData ? (
+                    <>Your movie Reviews</>
+                  ) : (
+                    <>{personData?.username}'s movie Reviews</>
+                  )}
                 </Text>
                 <Carousel
                   withIndicators
@@ -120,7 +157,9 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                               variant="h5"
                               color="gray"
                             >{`Rating: ${film.rating}`}</Text>
-                            <Button size="sm">Rediger</Button>
+                            {id && !personData && (
+                              <Button size="sm">Rediger</Button>
+                            )}
                           </Card>
                         </Carousel.Slide>
                       ))
@@ -173,7 +212,11 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
               </div>
               <div>
                 <Text align="left" variant="h1" size={24} weight={900}>
-                  Bookmarks
+                  {!id && !personData ? (
+                    <>Your Bookmarks</>
+                  ) : (
+                    <>{personData?.username}'s Bookmarks</>
+                  )}
                 </Text>
                 <Carousel
                   withIndicators
@@ -202,7 +245,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                                 title: film.title,
                                 height: "320",
                                 description: ``,
-                                genreID: 1, // Assuming genreID is required for your MovieCard component.
+                                genreID: 1,
                               }}
                             />
                           </UnstyledButton>
@@ -223,7 +266,7 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
                                 title: film.title,
                                 height: "320",
                                 description: ``,
-                                genreID: 1, // Assuming genreID is required for your MovieCard component.
+                                genreID: 1,
                               }}
                             />
                           </UnstyledButton>

@@ -11,6 +11,7 @@ import {
   UnstyledButton,
   Textarea,
   Button,
+  Avatar,
 } from "@mantine/core";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
@@ -119,6 +120,11 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   React.useEffect(() => {
     checkBookmarked();
   }, [userBookmarks, movie, checkBookmarked]);
@@ -178,27 +184,64 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
               <div style={{ marginTop: "64px" }}>
                 <Accordion>
                   <Accordion.Item value="customization">
-                    <Accordion.Control>Directors</Accordion.Control>
+                    <Accordion.Control>Production</Accordion.Control>
                     <Accordion.Panel>
-                      Colors, fonts, shadows and many other parts are
-                      customizable to fit your design needs
+                      Revenue:
+                      {movie.revenue && formatter.format(+movie.revenue)} <br />
+                      Runtime: {movie.runtime} minutes <br />
+                      Production companies;
+                      <div>
+                        {movie.production_companies?.map((company) => (
+                          <div key={company.id}>
+                            <img
+                              style={{ width: "200px", height: "50px" }}
+                              src={
+                                "https://image.tmdb.org/t/p/original" +
+                                company.logo_path
+                              }
+                              alt={company.name}
+                            ></img>
+                            {company.name}
+                          </div>
+                        ))}
+                      </div>
+                      <div>
+                        Production countries;
+                        {movie.production_countries?.map((country) => (
+                          <div key={country.name}>
+                            <img
+                              style={{ width: "50px", height: "50px" }}
+                              src={
+                                "https://www.countryflags.io/" +
+                                country.iso_3166_1 +
+                                "/flat/64.png"
+                              }
+                              alt={country.name}
+                            ></img>
+                          </div>
+                        ))}
+                      </div>
                     </Accordion.Panel>
                   </Accordion.Item>
 
                   <Accordion.Item value="flexibility">
-                    <Accordion.Control>Writers</Accordion.Control>
+                    <Accordion.Control>Languages</Accordion.Control>
                     <Accordion.Panel>
-                      Configure components appearance and behavior with vast
-                      amount of settings or overwrite any part of component
-                      styles
-                    </Accordion.Panel>
-                  </Accordion.Item>
-
-                  <Accordion.Item value="focus-ring">
-                    <Accordion.Control>Actors</Accordion.Control>
-                    <Accordion.Panel>
-                      With new :focus-visible pseudo-class focus ring appears
-                      only when user navigates with keyboard
+                      Movie is spoken in;
+                      {movie.spoken_languages?.map((language) => (
+                        <div key={language.name}>
+                          <img
+                            style={{ width: "50px", height: "50px" }}
+                            src={
+                              "https://www.countryflags.io/" +
+                              language.iso_639_1 +
+                              "/flat/64.png"
+                            }
+                            alt={language.name}
+                          ></img>
+                          {language.name}
+                        </div>
+                      ))}
                     </Accordion.Panel>
                   </Accordion.Item>
                 </Accordion>
@@ -252,7 +295,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
                       postedAt={review.date}
                       rating={review.rating}
                       body={review.comment}
-                      author={{ name: review.user, image: "lol" }}
+                      author={{ name: review.username, image: "lol" }}
                     />
                   ))}
                 </>

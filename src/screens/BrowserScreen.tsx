@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { fetchGenreMovies } from "../api/GetMovieByGenreId";
 import { MovieData } from "../api/IMovieData";
 import MovieCard from "../components/MovieCard"; // Import MovieCard component
 import { useMovieContext } from "../contexts/MovieContext";
+import { fetchGenreMovies } from "../api/TMDBMovie";
 
 export const BrowserScreen = () => {
   const { genres } = useMovieContext();

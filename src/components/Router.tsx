@@ -7,7 +7,6 @@ import { LoginScreen } from "../screens/LoginScreen";
 import { SignUpScreen } from "../screens/SignUpScreen";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { ErrorScreen } from "../screens/ErrorScreen";
-import { Apitest } from "../screens/Apitest";
 import { BrowserScreen } from "../screens/BrowserScreen";
 import { CatagoryScreen } from "../screens/CatagoryScreen";
 export const Router = () => {
@@ -22,7 +21,6 @@ export const Router = () => {
         <Route path="signUp" element={<SignUpScreen />} />
         <Route path="profile" element={<ProfileScreen />} />
         <Route path="profile/:id" element={<ProfileScreen />} />
-        <Route path="api" element={<Apitest />} />
         <Route path="Browser/*" element={<BrowserScreen />} />
         <Route path="*" element={<ErrorScreen />} />
       </Routes>
