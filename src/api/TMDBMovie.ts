@@ -122,6 +122,44 @@ export const fetchGenreMovies = async (genreId: number) => {
     console.log(e);
   }
 };
+export const fetchNowPlaying = async (page: number) => {
+  if (!page) return;
+
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/movie/now_playing?language=en-US&page=${page}`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data.results;
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};
+export const fetchUpcomming = async (page: number) => {
+  if (!page) return;
+
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/movie/upcoming?language=en-US&page=${page}`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data.results;
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};
 
 /*Create User*/
 export const createUserApi = async (

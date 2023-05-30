@@ -112,15 +112,15 @@ const useStyles = createStyles((theme) => ({
 const mockdata = [
   {
     icon: IconStar,
-    title: "Highest rated",
-    link: "/catagory/highestrated",
-    description: "View the highest rated movies and TV shows of all time",
+    title: "Upcomming",
+    link: "/catagory/upcomming",
+    description: "See what's coming soon to theaters and TV",
   },
   {
     icon: IconPlaneArrival,
-    title: "Just landed",
-    link: "/catagory/landed",
-    description: "Check out the latest movies and TV shows",
+    title: "Now playing",
+    link: "/catagory/nowplaying",
+    description: "See what's playing in theaters right now",
   },
   {
     icon: IconFlame,

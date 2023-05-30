@@ -3,7 +3,9 @@ import * as React from "react";
 import {
   fetchGenreMovies,
   fetchHotMovies,
+  fetchNowPlaying,
   fetchTopratedMovies,
+  fetchUpcomming,
 } from "../api/TMDBMovie";
 import MovieCard from "../components/MovieCard";
 import { useParams } from "react-router-dom";
@@ -27,6 +29,12 @@ export const CatagoryScreen = ({ ...props }: CatagoryScreenProps) => {
     switch (type) {
       case "top":
         fetchedMovies = await fetchTopratedMovies(page);
+        break;
+      case "upcomming":
+        fetchedMovies = await fetchUpcomming(page);
+        break;
+      case "nowplaying":
+        fetchedMovies = await fetchNowPlaying(page);
         break;
       case "hot":
         fetchedMovies = await fetchHotMovies(page);
