@@ -1,9 +1,8 @@
 import { useState } from "react";
-import { Input } from "@mantine/core";
+import { Card, Input, UnstyledButton } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { SearchMovieByName } from "../api/TMDBMovie";
 import { Link } from "react-router-dom";
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 interface SearchBarProps {
   onSearch: (query: string) => void;
@@ -40,13 +39,25 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
         onChange={(event) => setQuery(event.currentTarget.value)}
       />
       {movieData.length > 1 && (
-        <div>
+        <Card
+          withBorder
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            position: "absolute",
+            zIndex: 2000,
+          }}
+        >
           {movieData.map((movie) => (
-            <Link key={movie.id} to={`/movie/${movie.id}`}>
+            <UnstyledButton
+              component={Link}
+              key={movie.id}
+              to={`/movie/${movie.id}`}
+            >
               {movie.title}
-            </Link>
+            </UnstyledButton>
           ))}
-        </div>
+        </Card>
       )}
     </form>
   );

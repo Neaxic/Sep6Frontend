@@ -23,13 +23,14 @@ import {
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import {
+  IconArrowUp,
   IconBolt,
   IconBook,
   IconChevronDown,
   IconCrown,
   IconFlame,
   IconMoon,
-  IconPlaneArrival,
+  IconPlayerPlay,
   IconStar,
   IconSun,
 } from "@tabler/icons-react";
@@ -111,13 +112,13 @@ const useStyles = createStyles((theme) => ({
 
 const mockdata = [
   {
-    icon: IconStar,
+    icon: IconArrowUp,
     title: "Upcomming",
     link: "/catagory/upcomming",
     description: "See what's coming soon to theaters and TV",
   },
   {
-    icon: IconPlaneArrival,
+    icon: IconPlayerPlay,
     title: "Now playing",
     link: "/catagory/nowplaying",
     description: "See what's playing in theaters right now",

@@ -11,12 +11,11 @@ import {
   UnstyledButton,
   Textarea,
   Button,
-  Avatar,
 } from "@mantine/core";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
-import { UserContext, useUserContext } from "../contexts/UserContext";
+import { useUserContext } from "../contexts/UserContext";
 import { fetchMovie, ReviewByMovieId, deleteBookmark } from "../api/TMDBMovie";
 import { IMovie, IReview } from "../misc/types";
 
@@ -28,8 +27,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   let { isbn } = useParams();
   const { postBookmark, userBookmarks, userData } = useUserContext();
   const [bookmarked, setBookmarked] = React.useState(false);
-  const { postReview, userReviews } = useUserContext();
-  const [reviewed, setUserReviews] = React.useState(false);
+  const { postReview } = useUserContext();
   const [movie, setMovie] = React.useState<IMovie>();
   const [reviews, setReviews] = React.useState<IReview[]>([]);
   const form = useForm({
@@ -67,7 +65,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
 
   const createReviews = React.useCallback(async () => {
     if (movie && movie.id && movie.title && movie.poster_path) {
-      const res = await postReview(
+      await postReview(
         form.values.comment,
         form.values.rating,
         movie.id,
@@ -102,7 +100,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
         deleteBookmarkById();
       }
     }
-  }, [bookmarked, movie, postBookmark]);
+  }, [bookmarked, deleteBookmarkById, movie, postBookmark]);
 
   const checkBookmarked = React.useCallback(() => {
     if (userBookmarks && movie && movie.id && userBookmarks.length > 0) {
@@ -116,7 +114,8 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
 
   React.useEffect(() => {
     featchingData();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isbn]);
 
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
