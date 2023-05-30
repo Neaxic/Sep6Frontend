@@ -1,7 +1,7 @@
 export interface IUserReview {
-  movieID: string;
-  movieTitle: string;
-  movieSrc: string;
+  movie_id: string;
+  title: string;
+  image: string;
   date: string;
   rating: number;
   comment: string;
