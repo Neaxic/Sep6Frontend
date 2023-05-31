@@ -1,9 +1,7 @@
-import { Link } from "react-router-dom";
 import { CardsCarousel } from "../components/CardsCarousel";
 import { HeroText } from "../components/HeroText";
-import { Button, Flex, Text } from "@mantine/core";
+import { Text } from "@mantine/core";
 import React from "react";
-import { MovieData } from "../api/IMovieData";
 import { IMovie, ITopReviews } from "../misc/types";
 import { GetOurTopRatedMovies, fetchHotMovies } from "../api/TMDBMovie";
 

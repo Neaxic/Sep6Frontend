@@ -2,7 +2,6 @@ import { Select } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import { useMovieContext } from "../contexts/MovieContext";
-import { IGenre } from "../misc/types";
 
 function GenreListPopover() {
   const navigate = useNavigate();
