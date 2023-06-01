@@ -45,6 +45,26 @@ export const fetchTopratedMovies = async (page: number) => {
   }
 };
 
+export const fetchMovieCredits = async (movieId: number) => {
+  if (!movieId) return;
+
+  try {
+    const response = await axios({
+      method: "GET",
+      url: `${URL}/movie/${movieId}/credits`,
+      headers: {
+        accept: "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    });
+
+    const selectedData = response.data;
+    return selectedData;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const fetchHotMovies = async (page: number) => {
   if (!page) return;
 

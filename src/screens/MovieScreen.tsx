@@ -11,13 +11,20 @@ import {
   UnstyledButton,
   Textarea,
   Button,
+  Card,
+  Avatar,
 } from "@mantine/core";
 import { Comment } from "../components/Comment";
 import { IconBookmarkMinus, IconBookmarkPlus } from "@tabler/icons-react";
 import { useForm } from "@mantine/form";
 import { useUserContext } from "../contexts/UserContext";
-import { fetchMovie, ReviewByMovieId, deleteBookmark } from "../api/TMDBMovie";
-import { IMovie, IReview } from "../misc/types";
+import {
+  fetchMovie,
+  ReviewByMovieId,
+  deleteBookmark,
+  fetchMovieCredits,
+} from "../api/TMDBMovie";
+import { ICast, IMovie, IReview } from "../misc/types";
 
 export interface MovieScreenProps {
   //Props goes here
@@ -56,7 +63,17 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
   const featchingData = React.useCallback(async () => {
     if (isbn) {
       const movieOBJ = (await fetchMovie(isbn)) as IMovie;
-      setMovie(movieOBJ);
+
+      //Splitter moviecast obj ud, da der både er cast og crew i samme obj
+      const movieCast = (await fetchMovieCredits(+isbn)) as unknown;
+      const cast = (movieCast as any).cast as ICast[];
+      const crew = (movieCast as any).crew as ICast[];
+
+      const tmp = movieOBJ;
+      tmp.cast = cast;
+      tmp.crew = crew;
+
+      setMovie(tmp);
 
       const reviews = await ReviewByMovieId(+isbn);
       setReviews(reviews);
@@ -124,6 +141,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
 
   React.useEffect(() => {
     checkBookmarked();
+    console.log(movie);
   }, [userBookmarks, movie, checkBookmarked]);
 
   return (
@@ -180,7 +198,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
 
               <div style={{ marginTop: "64px" }}>
                 <Accordion>
-                  <Accordion.Item value="customization">
+                  <Accordion.Item value="production">
                     <Accordion.Control>Production</Accordion.Control>
                     <Accordion.Panel>
                       Revenue:
@@ -221,7 +239,7 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
                     </Accordion.Panel>
                   </Accordion.Item>
 
-                  <Accordion.Item value="flexibility">
+                  <Accordion.Item value="languages">
                     <Accordion.Control>Languages</Accordion.Control>
                     <Accordion.Panel>
                       Movie is spoken in;
@@ -238,6 +256,58 @@ export const MovieScreen = ({ ...props }: MovieScreenProps) => {
                           ></img>
                           {language.name}
                         </div>
+                      ))}
+                    </Accordion.Panel>
+                  </Accordion.Item>
+
+                  <Accordion.Item value="cast">
+                    <Accordion.Control>Cast</Accordion.Control>
+                    <Accordion.Panel>
+                      The following cast was in the movie;
+                      {movie.cast?.map((cast) => (
+                        <Card key={cast.name} style={{ margin: "20px 0px" }}>
+                          <Flex>
+                            <Avatar
+                              src={
+                                "https://image.tmdb.org/t/p/original" +
+                                cast.profile_path
+                              }
+                            />
+                            <div style={{ marginLeft: "20px" }}>
+                              <div style={{ display: "flex" }}>
+                                <Title size={"sm"}>{cast.name}</Title>
+                                <Text ml={18}>as {cast.character}</Text>
+                              </div>
+                              <Text>{cast.known_for_department}</Text>
+                            </div>
+                          </Flex>
+                        </Card>
+                      ))}
+                    </Accordion.Panel>
+                  </Accordion.Item>
+
+                  <Accordion.Item value="crew">
+                    <Accordion.Control>Crew</Accordion.Control>
+                    <Accordion.Panel>
+                      The following crew was in the movie;
+                      {movie.crew?.map((crew) => (
+                        <Card key={crew.name} style={{ margin: "20px 0px" }}>
+                          <Flex>
+                            <Avatar
+                              src={
+                                "https://image.tmdb.org/t/p/original" +
+                                crew.profile_path
+                              }
+                            />
+                            <div style={{ marginLeft: "20px" }}>
+                              <div style={{ display: "flex" }}>
+                                <Title size={"sm"}>{crew.name}</Title>
+                                <Text ml={18}>{crew.department}</Text>
+                              </div>
+                              <Text>{crew.job}</Text>
+                            </div>
+                          </Flex>
+                        </Card>
                       ))}
                     </Accordion.Panel>
                   </Accordion.Item>

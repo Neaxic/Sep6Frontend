@@ -55,7 +55,11 @@ export const CatagoryScreen = ({ ...props }: CatagoryScreenProps) => {
     fetchMovies();
   }, [fetchMovies, page]);
 
-  React.useEffect(() => {}, [type]);
+  React.useEffect(() => {
+    fetchMovies();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
 
   return (
     <div {...props}>
