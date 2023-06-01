@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "https://api.themoviedb.org/3";
+const URL = "http://api.themoviedb.org/3";
 const URLKAPS = "http://falkmikkelsen.dk:8081";
 const API_KEY =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJmOTMzMjZiMzg4MWQ3NThlMTkzOTI2YjRkOTE4NDcwMSIsInN1YiI6IjY0NjY4ZjI0MzNhMzc2MDBlNjc5NmQ3OCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.RgypCyWe-AyWmk8YCVahkl8J3Iw5HmxT8zZD7C1Czjc";
