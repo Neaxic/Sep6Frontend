@@ -1,3 +1,9 @@
+Github navne:
+falken123321: Kasper Falk Mikkelsen (304712)
+neaxic: Andreas Østergaard (304546)
+buildermark: Mark Hjuler Pedersen (304624)
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
