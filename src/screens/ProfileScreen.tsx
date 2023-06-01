@@ -40,7 +40,13 @@ export const ProfileScreen = ({ ...props }: ProfileScreenProps) => {
       }
 
       const reviewData = await ReviewByUserId(+id);
+
       if (reviewData) {
+        //Sort data by rating
+        reviewData?.sort((a: { rating: number }, b: { rating: number }) => {
+          return b.rating - a.rating;
+        });
+
         setPersonReviews(reviewData);
       }
     }
